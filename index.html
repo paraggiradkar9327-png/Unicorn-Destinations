@@ -1,62 +1,79 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Unicorn Destinations Itinerary</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <img src="/assest/DESTINATION.png" alt="Unicorn Destinations" class="logo">
-    <h1>Unicorn Destinations</h1>
-  </header>
-
-  <main>
-    <form id="itineraryForm">
-      <div id="daysContainer"></div>
-      <button type="button" id="addDayBtn">+ Add Day</button>
-      <button type="submit" class="submitBtn">Submit</button>
-    </form>
-  </main>
-
-  <script type="module" src="script.js"></script>
-  
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Unicorn Destinations - Itinerary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unicorn Destinations – Create Itinerary</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <!-- HERO HEADER -->
   <header class="hero">
+    <div class="hero-bg-overlay"></div>
     <div class="overlay">
-      <img src="/assest/DESTINATION.png" alt="Logo" class="logo">
+      <div class="logo-wrap">
+        <img src="/assest/DESTINATION.png" alt="Logo" class="logo">
+      </div>
       <h1>Unicorn Destinations</h1>
       <p>Your Journey, Our Expertise</p>
+      <div class="hero-accent-line"></div>
     </div>
   </header>
 
+  <!-- FORM INTRO -->
+  <div class="form-intro">
+    <div class="form-intro-inner">
+      <span class="form-intro-tag">Admin Panel</span>
+      <h2 class="form-intro-heading">Build Your Client's Itinerary</h2>
+      <p class="form-intro-sub">Add each day's description, photos, and videos. When done, submit to generate a shareable link.</p>
+    </div>
+  </div>
+
   <!-- MAIN CONTENT -->
-<main>
+  <main>
     <form id="itineraryForm">
-      <div id="daysContainer"></div>
-      <button type="button" id="addDayBtn">+ Add Day</button>
-      <button type="submit" class="submitBtn">Submit</button>
+
+      <div id="daysContainer">
+        <!-- Day blocks injected here by JS -->
+      </div>
+
+      <div class="form-actions">
+        <button type="button" id="addDayBtn">
+          <span class="btn-icon">+</span>
+          <span>Add Day</span>
+        </button>
+        <button type="submit" class="submitBtn">
+          <span class="btn-icon">✈</span>
+          <span>Generate Itinerary</span>
+        </button>
+      </div>
+
     </form>
   </main>
 
   <!-- FOOTER -->
   <footer>
-    <p>📞 8857955359 | ✉️ unicorndestinations@gmail.com</p>
+    <div class="footer-inner">
+      <div class="footer-brand">Unicorn Destinations</div>
+      <p>📞 8857955359 | ✉️ unicorndestinations@gmail.com</p>
+    </div>
   </footer>
 
   <script type="module" src="script.js"></script>
+
+  <!-- Enhance dayBlock labels with day numbers when added -->
+  <script>
+    // Patch: update h3 labels to show correct day numbers
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('.dayBlock').forEach((block, i) => {
+        const h3 = block.querySelector('h3');
+        if (h3) h3.textContent = `Day ${i + 1}`;
+      });
+    });
+    const container = document.getElementById('daysContainer');
+    if (container) observer.observe(container, { childList: true });
+  </script>
 </body>
 </html>

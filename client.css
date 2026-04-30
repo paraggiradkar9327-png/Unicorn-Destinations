@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unicorn Destinations – Your Itinerary</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    /* ─── TOKENS ──────────────────────────────────────────────── */
-    :root {
+  :root {
       --crimson:   #b22222;
       --crimson-dk:#8b0000;
       --gold:      #d4a853;
@@ -193,123 +184,16 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin: 16px 0;
+      margin-top: 16px;
     }
     .pill {
-      background: #fff3f3;
+      background: var(--warm-grey);
       color: var(--crimson);
       font-size: 12.5px;
       font-weight: 500;
       padding: 5px 14px;
       border-radius: 20px;
-      border: 1px solid #f0d0d0;
-    }
-
-    /* Divider */
-    .day-divider {
-      height: 1px;
-      background: #f0e8e0;
-      margin: 18px 0;
-    }
-
-    /* Media section label */
-    .media-label {
-      font-size: 11.5px;
-      font-weight: 500;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 10px;
-    }
-
-    /* Photos grid – 3 columns */
-    .photos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-    .photo-slot {
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      background: var(--warm-grey);
-      border: 2px solid #f0e8e0;
-      position: relative;
-      cursor: pointer;
-    }
-    .photo-slot img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .3s ease;
-    }
-    .photo-slot:hover img { transform: scale(1.06); }
-    .photo-slot:hover { border-color: var(--gold); }
-
-    /* Videos grid – 2 columns */
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-    .video-slot {
-      border-radius: 10px;
-      overflow: hidden;
-      background: #111;
-      border: 2px solid #f0e8e0;
-      position: relative;
-      aspect-ratio: 16/9;
-      cursor: pointer;
-    }
-    .video-slot video,
-    .video-slot img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .play-btn {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-    .play-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: rgba(178,34,34,0.85);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .play-icon::after {
-      content: "";
-      width: 0; height: 0;
-      border-top: 9px solid transparent;
-      border-bottom: 9px solid transparent;
-      border-left: 16px solid #fff;
-      margin-left: 3px;
-    }
-    .video-caption {
-      position: absolute;
-      bottom: 8px;
-      left: 10px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.9);
-      font-weight: 500;
-      background: rgba(0,0,0,0.45);
-      padding: 2px 8px;
-      border-radius: 6px;
-    }
-
-    @media (max-width: 600px) {
-      .photos-grid { grid-template-columns: repeat(2, 1fr); }
-      .video-grid  { grid-template-columns: 1fr; }
+      border: 1px solid #e8d9cc;
     }
 
     /* ─── FOOTER ──────────────────────────────────────────────── */
@@ -357,86 +241,3 @@
       .itineraryDay video { width: 100%; height: auto; }
       .day-header { flex-direction: column; align-items: flex-start; gap: 8px; }
     }
-  </style>
-</head>
-<body>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-inner">
-      <img src="/assest/DESTINATION.png" alt="Unicorn Destinations Logo" class="hero-logo">
-      <h1 class="hero-title">Unicorn Destinations</h1>
-      <p class="hero-sub">Your Personalised Tour Itinerary</p>
-      <div class="hero-rule"></div>
-    </div>
-  </header>
-
-  <!-- ITINERARY -->
-   
-  <main id="clientContent">
-    <div class="section-label">
-      <span>Your Journey</span>
-    </div>
-
-    <div class="itineraryDay">
-      <div class="day-header">
-        <span class="day-badge">Day 1</span>
-        <h2>Arrival &amp; City Welcome</h2>
-        <span style="font-size:13px;opacity:.75;white-space:nowrap;">Mon, 5 May 2025</span>
-      </div>
-      <div class="day-body">
-        <p>Begin your journey with a warm welcome at the airport, followed by a scenic transfer to your hotel. The evening unfolds with a leisurely walk along the beachfront promenade, a welcome dinner at a local seafood restaurant, and your first taste of the local culture.</p>
-        <div class="highlights">
-          <span class="pill">✈ Airport Pickup</span>
-          <span class="pill">🏨 Hotel Check-in</span>
-          <span class="pill">🌅 Sunset Walk</span>
-          <span class="pill">🍽 Welcome Dinner</span>
-        </div>
-        <div class="day-divider"></div>
-        <p class="media-label">Photos</p>
-        <div class="photos-grid">
-          <div class="photo-slot">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80" alt="Beach">
-          </div>
-          <div class="photo-slot">
-            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500&q=80" alt="Hotel">
-          </div>
-          <div class="photo-slot">
-            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=80" alt="Dinner">
-          </div>
-        </div>
-        <p class="media-label">Videos</p>
-        <div class="video-grid">
-          <div class="video-slot">
-            <video controls poster="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80">
-              <!-- <source src="day1-tour.mp4" type="video/mp4"> -->
-            </video>
-            <div class="play-btn"><div class="play-icon"></div></div>
-            <span class="video-caption">Welcome Tour</span>
-          </div>
-          <div class="video-slot">
-            <video controls poster="https://images.unsplash.com/photo-1468581264429-2548ef9eb732?w=600&q=80">
-              <!-- <source src="day1-highlights.mp4" type="video/mp4"> -->
-            </video>
-            <div class="play-btn"><div class="play-icon"></div></div>
-            <span class="video-caption">City Highlights</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- JS will inject more .itineraryDay blocks here -->
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <p class="footer-brand">Unicorn Destinations</p>
-    <div class="footer-contact">
-      <a href="tel:8857955359">📞 8857955359</a>
-      <a href="mailto:unicorndestinations@gmail.com">✉️ unicorndestinations@gmail.com</a>
-    </div>
-  </footer>
-
-  <script type="module" src="script.js"></script>
-</body>
-</html>
