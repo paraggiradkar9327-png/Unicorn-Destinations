@@ -581,3 +581,221 @@ footer p {
   .form-actions { flex-direction: column; align-items: stretch; }
   .form-actions button { justify-content: center; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   PHOTO UPLOAD GRID  —  3 individual slots per day
+   ═══════════════════════════════════════════════════════════════ */
+
+.photo-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.photo-upload-slot {
+  position: relative;
+}
+
+.photo-slot-label {
+  display: block;
+  cursor: pointer;
+}
+
+/* Hide the raw file input visually */
+.photo-slot-label input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.photo-slot-preview {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px dashed #e0d0c0;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .25s, background .25s;
+}
+
+.photo-slot-label:hover .photo-slot-preview {
+  border-color: var(--crimson);
+  background: #fff8f6;
+}
+
+.photo-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.slot-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.slot-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.slot-subtext {
+  font-size: 10px;
+  color: #c0b0a0;
+  margin-top: -2px;
+}
+
+.photo-preview-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+
+/* Remove (✕) button */
+.photo-remove-btn,
+.video-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 10;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(178,34,34,.88);
+  color: #fff;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background .2s, transform .2s;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.photo-remove-btn:hover,
+.video-remove-btn:hover {
+  background: var(--crimson-dk);
+  transform: scale(1.12);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   VIDEO UPLOAD SLOT  —  single clip per day
+   ═══════════════════════════════════════════════════════════════ */
+
+.video-upload-wrapper {
+  margin-bottom: 16px;
+}
+
+.video-slot-label {
+  display: block;
+  cursor: pointer;
+  position: relative;
+}
+
+.video-slot-label input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.video-slot-preview {
+  position: relative;
+  aspect-ratio: 16/7;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px dashed #e0d0c0;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .25s, background .25s;
+}
+
+.video-slot-label:hover .video-slot-preview {
+  border-color: var(--crimson);
+  background: #fff8f6;
+}
+
+.video-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.video-preview-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.video-filename {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,.92);
+  font-weight: 500;
+  background: rgba(0,0,0,.48);
+  padding: 2px 9px;
+  border-radius: 6px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.video-remove-btn {
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .photo-upload-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+  }
+  .slot-icon { font-size: 16px; }
+  .slot-text { font-size: 9px; }
+}

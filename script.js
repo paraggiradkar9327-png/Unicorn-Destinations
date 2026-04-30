@@ -53,6 +53,119 @@ async function saveItinerary(days) {
 
 
 // ==============================
+// CREATE PHOTO SLOT UI
+// ==============================
+function createPhotoSlot(slotNumber) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "photo-upload-slot";
+  wrapper.dataset.slot = slotNumber;
+
+  wrapper.innerHTML = `
+    <label class="photo-slot-label">
+      <input type="file" class="photo-input" accept="image/*" data-slot="${slotNumber}">
+      <div class="photo-slot-preview">
+        <div class="photo-slot-empty">
+          <span class="slot-icon">📷</span>
+          <span class="slot-text">Photo ${slotNumber}</span>
+        </div>
+        <img class="photo-preview-img" src="" alt="" style="display:none;">
+        <button type="button" class="photo-remove-btn" style="display:none;" title="Remove photo">✕</button>
+      </div>
+    </label>
+  `;
+
+  // Preview on file select
+  const input = wrapper.querySelector(".photo-input");
+  const previewImg = wrapper.querySelector(".photo-preview-img");
+  const emptyState = wrapper.querySelector(".photo-slot-empty");
+  const removeBtn = wrapper.querySelector(".photo-remove-btn");
+
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        previewImg.style.display = "block";
+        emptyState.style.display = "none";
+        removeBtn.style.display = "flex";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  removeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    input.value = "";
+    previewImg.src = "";
+    previewImg.style.display = "none";
+    emptyState.style.display = "flex";
+    removeBtn.style.display = "none";
+  });
+
+  return wrapper;
+}
+
+
+// ==============================
+// CREATE VIDEO SLOT UI
+// ==============================
+function createVideoSlot() {
+  const wrapper = document.createElement("div");
+  wrapper.className = "video-upload-slot";
+
+  wrapper.innerHTML = `
+    <label class="video-slot-label">
+      <input type="file" class="video-input" accept="video/*">
+      <div class="video-slot-preview">
+        <div class="video-slot-empty">
+          <span class="slot-icon">🎬</span>
+          <span class="slot-text">Upload Video</span>
+          <span class="slot-subtext">MP4, MOV, AVI</span>
+        </div>
+        <video class="video-preview-el" style="display:none;" muted></video>
+        <button type="button" class="video-remove-btn" style="display:none;" title="Remove video">✕</button>
+        <span class="video-filename" style="display:none;"></span>
+      </div>
+    </label>
+  `;
+
+  const input = wrapper.querySelector(".video-input");
+  const previewEl = wrapper.querySelector(".video-preview-el");
+  const emptyState = wrapper.querySelector(".video-slot-empty");
+  const removeBtn = wrapper.querySelector(".video-remove-btn");
+  const filenameEl = wrapper.querySelector(".video-filename");
+
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      previewEl.src = url;
+      previewEl.style.display = "block";
+      emptyState.style.display = "none";
+      removeBtn.style.display = "flex";
+      filenameEl.textContent = file.name.length > 28 ? file.name.slice(0, 25) + "…" : file.name;
+      filenameEl.style.display = "block";
+    }
+  });
+
+  removeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    input.value = "";
+    previewEl.src = "";
+    previewEl.style.display = "none";
+    emptyState.style.display = "flex";
+    removeBtn.style.display = "none";
+    filenameEl.style.display = "none";
+  });
+
+  return wrapper;
+}
+
+
+// ==============================
 // ADMIN FORM (index/admin page)
 // ==============================
 document.addEventListener("DOMContentLoaded", () => {
@@ -64,15 +177,43 @@ document.addEventListener("DOMContentLoaded", () => {
     addDayBtn.addEventListener("click", () => {
       const dayBlock = document.createElement("div");
       dayBlock.className = "dayBlock";
-      dayBlock.innerHTML = `
-        <h3>Day</h3>
-        <label>Description:</label><br>
-        <textarea class="desc"></textarea><br><br>
-        <label>Photos:</label><br>
-        <input type="file" class="photos" multiple accept="image/*"><br><br>
-        <label>Videos:</label><br>
-        <input type="file" class="videos" multiple accept="video/*"><br>
-      `;
+
+      // Header
+      const header = document.createElement("h3");
+      header.textContent = "Day";
+      dayBlock.appendChild(header);
+
+      // Description label + textarea
+      const descLabel = document.createElement("label");
+      descLabel.textContent = "Description:";
+      dayBlock.appendChild(descLabel);
+
+      const textarea = document.createElement("textarea");
+      textarea.className = "desc";
+      dayBlock.appendChild(textarea);
+
+      // Photos section
+      const photosLabel = document.createElement("label");
+      photosLabel.textContent = "Photos (up to 3):";
+      dayBlock.appendChild(photosLabel);
+
+      const photosGrid = document.createElement("div");
+      photosGrid.className = "photo-upload-grid";
+      for (let i = 1; i <= 3; i++) {
+        photosGrid.appendChild(createPhotoSlot(i));
+      }
+      dayBlock.appendChild(photosGrid);
+
+      // Video section
+      const videoLabel = document.createElement("label");
+      videoLabel.textContent = "Video (1 clip):";
+      dayBlock.appendChild(videoLabel);
+
+      const videoWrapper = document.createElement("div");
+      videoWrapper.className = "video-upload-wrapper";
+      videoWrapper.appendChild(createVideoSlot());
+      dayBlock.appendChild(videoWrapper);
+
       daysContainer.appendChild(dayBlock);
     });
   }
@@ -80,22 +221,31 @@ document.addEventListener("DOMContentLoaded", () => {
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      const submitBtn = form.querySelector(".submitBtn");
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span class="btn-icon">⏳</span><span>Uploading…</span>`;
+
       const days = [];
 
       for (const [index, block] of [...document.querySelectorAll(".dayBlock")].entries()) {
         const desc = block.querySelector(".desc").value;
-        const photoFiles = Array.from(block.querySelector(".photos").files);
-        const videoFiles = Array.from(block.querySelector(".videos").files);
 
+        // Collect up to 3 photos
+        const photoInputs = block.querySelectorAll(".photo-input");
         const photos = [];
-        for (const file of photoFiles) {
-          const url = await uploadFile("Photos", file);
-          if (url) photos.push(url);
+        for (const input of photoInputs) {
+          if (input.files[0]) {
+            const url = await uploadFile("Photos", input.files[0]);
+            if (url) photos.push(url);
+          }
         }
 
+        // Collect 1 video
+        const videoInput = block.querySelector(".video-input");
         const videos = [];
-        for (const file of videoFiles) {
-          const url = await uploadFile("Videos", file);
+        if (videoInput && videoInput.files[0]) {
+          const url = await uploadFile("Videos", videoInput.files[0]);
           if (url) videos.push(url);
         }
 
@@ -150,10 +300,9 @@ async function loadItinerary() {
 
 
 // ==============================
-// RENDER FUNCTION  ← ONLY CHANGE
+// RENDER FUNCTION
 // ==============================
 function renderItinerary(days, container) {
-  // Keep the section label if it exists, clear only the day cards
   const sectionLabel = container.querySelector(".section-label");
   container.innerHTML = "";
   if (sectionLabel) container.appendChild(sectionLabel);
@@ -192,10 +341,8 @@ function renderItinerary(days, container) {
         <div class="video-grid">${slots}</div>`;
     }
 
-    // ── Show divider only if there is any media ────────
     const hasmedia = photosHTML || videosHTML;
 
-    // ── Assemble the full card ─────────────────────────
     const div = document.createElement("div");
     div.className = "itineraryDay";
     div.innerHTML = `
@@ -203,12 +350,9 @@ function renderItinerary(days, container) {
         <span class="day-badge">Day ${day.day}</span>
         <h2>Day ${day.day}</h2>
       </div>
-
       <div class="day-body">
         <p>${day.desc}</p>
-
         ${hasmedia ? '<div class="day-divider"></div>' : ""}
-
         ${photosHTML}
         ${videosHTML}
       </div>
