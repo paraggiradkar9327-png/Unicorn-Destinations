@@ -183,6 +183,16 @@ document.addEventListener("DOMContentLoaded", () => {
       header.textContent = "Day";
       dayBlock.appendChild(header);
 
+      // Date label + input
+      const dateLabel = document.createElement("label");
+      dateLabel.textContent = "Date:";
+      dayBlock.appendChild(dateLabel);
+
+      const dateInput = document.createElement("input");
+      dateInput.type = "date";
+      dateInput.className = "day-date";
+      dayBlock.appendChild(dateInput);
+
       // Description label + textarea
       const descLabel = document.createElement("label");
       descLabel.textContent = "Description:";
@@ -230,6 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       for (const [index, block] of [...document.querySelectorAll(".dayBlock")].entries()) {
         const desc = block.querySelector(".desc").value;
+        const date = block.querySelector(".day-date")?.value || "";
 
         // Collect up to 3 photos
         const photoInputs = block.querySelectorAll(".photo-input");
@@ -249,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (url) videos.push(url);
         }
 
-        days.push({ day: index + 1, desc, photos, videos });
+        days.push({ day: index + 1, date, desc, photos, videos });
       }
 
       const itineraryId = await saveItinerary(days);
@@ -309,6 +320,15 @@ function renderItinerary(days, container) {
 
   days.forEach(day => {
 
+    // ── Format date for display ────────────────────────
+    let dateHTML = "";
+    if (day.date) {
+      const formatted = new Date(day.date + "T00:00:00").toLocaleDateString("en-GB", {
+        day: "numeric", month: "long", year: "numeric"
+      });
+      dateHTML = `<span class="day-date-badge">📅 ${formatted}</span>`;
+    }
+
     // ── Build photos HTML ──────────────────────────────
     let photosHTML = "";
     if (day.photos && day.photos.length > 0) {
@@ -349,6 +369,7 @@ function renderItinerary(days, container) {
       <div class="day-header">
         <span class="day-badge">Day ${day.day}</span>
         <h2>Day ${day.day}</h2>
+        ${dateHTML}
       </div>
       <div class="day-body">
         <p>${day.desc}</p>
