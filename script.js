@@ -265,15 +265,85 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const itineraryId = await saveItinerary(days);
 
+      // Restore submit button
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Generate Itinerary</span>`;
+
       if (itineraryId) {
-        window.location.href = `client.html?id=${itineraryId}`;
+        const clientUrl = `${window.location.origin}${window.location.pathname.replace("index.html", "")}client.html?id=${itineraryId}`;
+        const BASE_URL = "https://69f5a0144130b3bdf1a5b69b--jolly-kataifi-513a74.netlify.app/";
+        showLinkModal(BASE_URL);
       } else {
-        sessionStorage.setItem("itineraryData", JSON.stringify(days));
-        window.location.href = "client.html";
+        alert("Failed to save itinerary. Please try again.");
       }
     });
   }
 });
+
+
+// ==============================
+// SHOW GENERATED LINK MODAL
+// ==============================
+function showLinkModal(url) {
+
+  // Remove existing modal if any
+  document.getElementById("linkModal")?.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "linkModal";
+  modal.innerHTML = `
+    <div class="link-modal-backdrop"></div>
+    <div class="link-modal-box">
+      <div class="link-modal-icon">🎉</div>
+      <h2 class="link-modal-title">Itinerary Ready!</h2>
+      <p class="link-modal-sub">Copy the link below and send it to your client.</p>
+
+      <div class="link-copy-row">
+        <input id="linkInput" class="link-input" type="text" value="${url}" readonly>
+        <button type="button" id="copyLinkBtn" class="copy-btn">
+          <span class="copy-icon">📋</span>
+          <span class="copy-label">Copy</span>
+        </button>
+      </div>
+
+      <div id="copySuccess" class="copy-success" style="display:none;">
+        ✅ Link copied to clipboard!
+      </div>
+
+      <div class="link-modal-actions">
+        <a href="${url}" target="_blank" class="preview-btn">
+          <span>👁</span> Preview Client Page
+        </a>
+        <button type="button" class="close-modal-btn" id="closeModalBtn">
+          Close
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Copy button logic
+  document.getElementById("copyLinkBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(url).then(() => {
+      document.getElementById("copySuccess").style.display = "block";
+      document.getElementById("copyLinkBtn").innerHTML = `<span class="copy-icon">✅</span><span class="copy-label">Copied!</span>`;
+      setTimeout(() => {
+        document.getElementById("copySuccess").style.display = "none";
+        document.getElementById("copyLinkBtn").innerHTML = `<span class="copy-icon">📋</span><span class="copy-label">Copy</span>`;
+      }, 3000);
+    });
+  });
+
+  // Select all on input click
+  document.getElementById("linkInput").addEventListener("click", function () {
+    this.select();
+  });
+
+  // Close modal
+  document.getElementById("closeModalBtn").addEventListener("click", () => modal.remove());
+  modal.querySelector(".link-modal-backdrop").addEventListener("click", () => modal.remove());
+}
 
 
 // ==============================
