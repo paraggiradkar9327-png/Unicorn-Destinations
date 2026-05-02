@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
-   UNICORN DESTINATIONS  —  style.css
-   Luxury travel aesthetic · Cormorant Garamond + Outfit
+   UNICORN DESTINATIONS — style.css
+   Admin / Index page styles
+   Fonts: Cormorant Garamond + Outfit
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── TOKENS ─────────────────────────────────────────────────── */
@@ -17,19 +18,18 @@
   --muted:      #9a8778;
   --white:      #ffffff;
 
-  --shadow-sm:  0 2px 12px rgba(28,20,16,.07);
-  --shadow-md:  0 8px 32px rgba(28,20,16,.11);
-  --shadow-lg:  0 20px 60px rgba(28,20,16,.14);
+  --shadow-sm: 0 2px 12px rgba(28,20,16,.07);
+  --shadow-md: 0 8px 32px rgba(28,20,16,.11);
+  --shadow-lg: 0 20px 60px rgba(28,20,16,.14);
 
-  --radius-sm:  8px;
-  --radius-md:  14px;
-  --radius-lg:  20px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
 }
 
 /* ─── RESET ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
   font-family: 'Outfit', sans-serif;
   background: var(--cream);
@@ -47,8 +47,6 @@ body {
   position: relative;
   overflow: hidden;
 }
-
-/* Gradient overlay  – keep .overlay as the user's existing class */
 .overlay {
   position: absolute;
   inset: 0;
@@ -60,9 +58,8 @@ body {
   text-align: center;
   color: var(--white);
   padding: 20px;
+  z-index: 2;
 }
-
-/* Subtle grain texture over hero */
 .hero-bg-overlay {
   position: absolute;
   inset: 0;
@@ -70,10 +67,6 @@ body {
   pointer-events: none;
   z-index: 1;
 }
-
-.overlay { z-index: 2; }
-
-/* Logo */
 .logo-wrap {
   width: 68px; height: 68px;
   background: rgba(255,255,255,.12);
@@ -84,8 +77,7 @@ body {
   backdrop-filter: blur(8px);
 }
 .logo { height: 70px; }
-
-.overlay h1, .hero h1 {
+.overlay h1 {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(28px, 5vw, 46px);
   font-weight: 700;
@@ -93,15 +85,13 @@ body {
   line-height: 1.1;
   text-shadow: 0 2px 16px rgba(0,0,0,.35);
 }
-
-.overlay p, .hero p {
+.overlay p {
   font-size: 14px;
   font-weight: 300;
   opacity: .78;
   letter-spacing: .8px;
   margin-top: 6px;
 }
-
 .hero-accent-line {
   width: 50px; height: 2px;
   background: linear-gradient(90deg, var(--gold), var(--gold-lt));
@@ -157,18 +147,12 @@ main {
   padding: 36px 20px 60px;
 }
 
-/* ─── FORM WRAPPER (existing id kept) ──────────────────────── */
-#itineraryForm {
-  /* no extra wrapper needed; main handles width */
-}
-
-/* ─── DAY BLOCK (existing class kept) ──────────────────────── */
+/* ─── DAY BLOCK ─────────────────────────────────────────────── */
 .dayBlock {
   background: var(--white);
   border: 1px solid #ead8c4;
   border-top: 4px solid var(--crimson);
   border-radius: var(--radius-md);
-  padding: 0;
   margin-bottom: 24px;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
@@ -178,8 +162,6 @@ main {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-/* Day block internal header */
 .dayBlock h3 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px;
@@ -190,8 +172,6 @@ main {
   margin: 0;
   letter-spacing: .5px;
 }
-
-/* Fields inside dayBlock */
 .dayBlock label {
   display: block;
   font-size: 12px;
@@ -201,9 +181,15 @@ main {
   color: var(--muted);
   margin-bottom: 6px;
 }
+.dayBlock > *:not(h3) {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.dayBlock > label { padding-top: 16px; }
+.dayBlock > *:last-child { padding-bottom: 20px; }
 
-.dayBlock textarea,
-.dayBlock input[type="file"] {
+/* Textarea */
+.dayBlock textarea {
   width: 100%;
   border: 1.5px solid #e0d0c0;
   border-radius: var(--radius-sm);
@@ -211,55 +197,190 @@ main {
   font-size: 14px;
   color: var(--ink);
   background: var(--cream);
-  transition: border-color .2s, box-shadow .2s;
-  outline: none;
-}
-.dayBlock textarea {
   padding: 12px 14px;
   min-height: 100px;
   resize: vertical;
   line-height: 1.6;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  margin-bottom: 4px;
 }
 .dayBlock textarea:focus {
   border-color: var(--crimson);
   box-shadow: 0 0 0 3px rgba(178,34,34,.08);
   background: var(--white);
 }
-.dayBlock input[type="file"] {
-  padding: 10px 12px;
-  cursor: pointer;
-}
-.dayBlock input[type="file"]::-webkit-file-upload-button {
-  background: var(--crimson);
-  color: var(--white);
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
+
+/* Date input */
+.dayBlock input[type="date"].day-date {
+  width: 100%;
+  border: 1.5px solid #e0d0c0;
+  border-radius: var(--radius-sm);
   font-family: 'Outfit', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--cream);
+  padding: 10px 14px;
+  margin-bottom: 4px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
   cursor: pointer;
-  margin-right: 10px;
-  transition: background .2s;
 }
-.dayBlock input[type="file"]::-webkit-file-upload-button:hover {
+.dayBlock input[type="date"].day-date:focus {
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(178,34,34,.08);
+  background: var(--white);
+}
+.dayBlock input[type="date"].day-date::-webkit-calendar-picker-indicator {
+  opacity: .5;
+  cursor: pointer;
+  filter: invert(20%) sepia(60%) saturate(600%) hue-rotate(330deg);
+}
+
+/* ─── PHOTO UPLOAD GRID ─────────────────────────────────────── */
+.photo-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.photo-upload-slot { position: relative; }
+.photo-slot-label { display: block; cursor: pointer; }
+.photo-slot-label input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%; height: 100%;
+  z-index: 2;
+  padding: 0; border: none; background: none;
+}
+.photo-slot-preview {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px dashed #e0d0c0;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .25s, background .25s;
+}
+.photo-slot-label:hover .photo-slot-preview {
+  border-color: var(--crimson);
+  background: #fff8f6;
+}
+.photo-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+.slot-icon { font-size: 22px; line-height: 1; }
+.slot-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.photo-preview-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+
+/* ─── VIDEO UPLOAD SLOT ─────────────────────────────────────── */
+.video-upload-wrapper { margin-bottom: 16px; }
+.video-slot-label { display: block; cursor: pointer; position: relative; }
+.video-slot-label input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%; height: 100%;
+  z-index: 2;
+  padding: 0; border: none; background: none;
+}
+.video-slot-preview {
+  position: relative;
+  aspect-ratio: 16/7;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px dashed #e0d0c0;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .25s, background .25s;
+}
+.video-slot-label:hover .video-slot-preview {
+  border-color: var(--crimson);
+  background: #fff8f6;
+}
+.video-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.slot-subtext { font-size: 10px; color: #c0b0a0; }
+.video-preview-el {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.video-filename {
+  position: absolute;
+  bottom: 8px; left: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,.92);
+  font-weight: 500;
+  background: rgba(0,0,0,.48);
+  padding: 2px 9px;
+  border-radius: 6px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ─── REMOVE BUTTONS ────────────────────────────────────────── */
+.photo-remove-btn,
+.video-remove-btn {
+  position: absolute;
+  top: 6px; right: 6px;
+  z-index: 10;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(178,34,34,.88);
+  color: #fff;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, transform .2s;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.photo-remove-btn:hover,
+.video-remove-btn:hover {
   background: var(--crimson-dk);
+  transform: scale(1.12);
 }
+.video-remove-btn { top: 8px; right: 8px; width: 26px; height: 26px; font-size: 12px; }
 
-/* Wrap dayBlock inner content in padding */
-.dayBlock > *:not(h3) {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.dayBlock > label { padding-top: 16px; }
-.dayBlock > br { display: none; } /* hide raw <br> tags */
-.dayBlock > textarea { margin-bottom: 4px; }
-.dayBlock > input[type="file"] { margin-bottom: 8px; }
-
-/* Last child gets bottom padding */
-.dayBlock > *:last-child { padding-bottom: 20px; }
-
-/* ─── FORM ACTION BUTTONS ───────────────────────────────────── */
+/* ─── FORM BUTTONS ──────────────────────────────────────────── */
 .form-actions {
   display: flex;
   gap: 14px;
@@ -267,8 +388,6 @@ main {
   justify-content: center;
   margin-top: 10px;
 }
-
-/* ─── BUTTON (existing tag selector kept) ──────────────────── */
 button {
   display: inline-flex;
   align-items: center;
@@ -291,7 +410,6 @@ button:hover {
   box-shadow: 0 6px 22px rgba(178,34,34,.38);
   background: linear-gradient(135deg, var(--crimson-lt), var(--crimson));
 }
-
 #addDayBtn {
   background: var(--white);
   color: var(--crimson);
@@ -302,252 +420,143 @@ button:hover {
   background: #fff0f0;
   box-shadow: 0 4px 14px rgba(178,34,34,.14);
 }
-
-/* ─── SUBMIT BUTTON (existing class kept) ──────────────────── */
 .submitBtn {
-  display: inline-flex;
   font-size: 15px;
   padding: 14px 36px;
-  background: linear-gradient(135deg, var(--crimson), var(--crimson-dk));
   box-shadow: 0 6px 24px rgba(178,34,34,.32);
   letter-spacing: .6px;
 }
-
-.btn-icon {
-  font-size: 16px;
-  line-height: 1;
-}
+.btn-icon { font-size: 16px; line-height: 1; }
 
 /* ═══════════════════════════════════════════════════════════════
-   CLIENT PAGE — #clientContent  (existing id kept)
+   GENERATED LINK MODAL
    ═══════════════════════════════════════════════════════════════ */
-#clientContent {
-  max-width: 1000px;
-  margin: -60px auto 40px;
+#linkModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
 }
-
-/* Section label */
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 32px;
-}
-.section-label span {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--crimson);
-  white-space: nowrap;
-}
-.section-label::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(to right, #d9c5b5, transparent);
-}
-
-/* ─── ITINERARY DAY CARD (existing class kept) ──────────────── */
-.itineraryDay {
-  background: var(--white);
-  margin-bottom: 28px;
-  padding: 0;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  transition: transform .3s ease, box-shadow .3s ease;
-  animation: fadeUp .55s ease both;
-}
-.itineraryDay:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-.itineraryDay:nth-child(1){ animation-delay: .06s; }
-.itineraryDay:nth-child(2){ animation-delay: .14s; }
-.itineraryDay:nth-child(3){ animation-delay: .22s; }
-.itineraryDay:nth-child(4){ animation-delay: .30s; }
-.itineraryDay:nth-child(5){ animation-delay: .38s; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ─── DAY HEADER STRIP (new class) ─────────────────────────── */
-.day-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 24px;
-  background: linear-gradient(90deg, var(--crimson) 0%, var(--crimson-dk) 100%);
-  color: var(--white);
-}
-
-.day-badge {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .6px;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.3);
-  border-radius: 20px;
-  padding: 4px 14px;
-  white-space: nowrap;
-}
-
-/* Existing h2 inside itineraryDay */
-.itineraryDay h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--white);
-  flex: 1;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-/* ─── DAY BODY (new class) ──────────────────────────────────── */
-.day-body {
-  padding: 22px 24px 24px;
-}
-.day-body > p {
-  font-size: 14.5px;
-  line-height: 1.78;
-  color: #4a3a2e;
-  margin-bottom: 16px;
-}
-
-/* ─── DIVIDER (new class) ───────────────────────────────────── */
-.day-divider {
-  height: 1px;
-  background: #f0e4d4;
-  margin: 16px 0 20px;
-}
-
-/* ─── MEDIA LABEL (new class) ───────────────────────────────── */
-.media-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 10px;
-}
-
-/* ─── PHOTOS GRID (new class) ───────────────────────────────── */
-.photos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.photo-slot {
-  border-radius: 10px;
-  overflow: hidden;
-  aspect-ratio: 4/3;
-  background: var(--warm);
-  border: 2px solid #ead8c4;
-  cursor: pointer;
-  transition: border-color .25s;
-}
-.photo-slot:hover { border-color: var(--gold); }
-
-/* Existing img inside itineraryDay */
-.itineraryDay img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .3s ease;
-}
-.photo-slot:hover .itineraryDay img,
-.photo-slot:hover img { transform: scale(1.07); }
-
-/* ─── VIDEOS GRID (new class) ───────────────────────────────── */
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-.video-slot {
-  border-radius: 10px;
-  overflow: hidden;
-  background: #111;
-  border: 2px solid #ead8c4;
-  position: relative;
-  aspect-ratio: 16/9;
-  cursor: pointer;
-}
-
-/* Existing video inside itineraryDay */
-.itineraryDay video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.play-btn {
+.link-modal-backdrop {
   position: absolute;
   inset: 0;
+  background: rgba(28,20,16,.72);
+  backdrop-filter: blur(4px);
+}
+.link-modal-box {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px 32px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  animation: modalPop .35s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(.88) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.link-modal-icon { font-size: 48px; line-height: 1; margin-bottom: 14px; }
+.link-modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.link-modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+.link-copy-row {
   display: flex;
+  gap: 8px;
+  background: var(--cream);
+  border: 1.5px solid #e0d0c0;
+  border-radius: var(--radius-sm);
+  padding: 6px 6px 6px 14px;
   align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  transition: opacity .3s;
+  margin-bottom: 10px;
 }
-.video-slot:hover .play-btn { opacity: .6; }
-
-.play-icon {
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  background: rgba(178,34,34,.88);
-  display: flex;
+.link-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'Outfit', monospace;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: text;
+}
+.copy-btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 18px rgba(0,0,0,.35);
+  gap: 6px;
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dk));
+  color: var(--white);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 22px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 3px 12px rgba(178,34,34,.28);
+  flex-shrink: 0;
 }
-.play-icon::after {
-  content: "";
-  width: 0; height: 0;
-  border-top: 9px solid transparent;
-  border-bottom: 9px solid transparent;
-  border-left: 16px solid #fff;
-  margin-left: 4px;
-}
-
-.video-caption {
-  position: absolute;
-  bottom: 8px;
-  left: 10px;
-  font-size: 11px;
-  color: rgba(255,255,255,.92);
+.copy-btn:hover { transform: scale(1.05); box-shadow: 0 5px 18px rgba(178,34,34,.38); }
+.copy-icon { font-size: 14px; }
+.copy-success {
+  font-size: 13px;
+  color: #2e7d32;
   font-weight: 500;
-  background: rgba(0,0,0,.48);
-  padding: 2px 9px;
-  border-radius: 6px;
-  letter-spacing: .3px;
+  margin-bottom: 10px;
 }
-
-/* ─── HIGHLIGHTS PILLS (new class) ─────────────────────────── */
-.highlights {
+.link-modal-actions {
   display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
   flex-wrap: wrap;
+}
+.preview-btn {
+  display: inline-flex;
+  align-items: center;
   gap: 7px;
-  margin: 12px 0 16px;
-}
-.pill {
-  font-size: 12px;
-  font-weight: 500;
-  background: #fff3f0;
+  background: var(--cream);
   color: var(--crimson);
-  border: 1px solid #f0d0d0;
-  padding: 4px 14px;
-  border-radius: 20px;
+  border: 1.5px solid var(--crimson);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, box-shadow .2s;
 }
+.preview-btn:hover { background: #fff0f0; box-shadow: 0 4px 14px rgba(178,34,34,.14); }
+.close-modal-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid #e0d0c0;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.close-modal-btn:hover { background: var(--cream); color: var(--ink); transform: none; box-shadow: none; }
 
 /* ═══════════════════════════════════════════════════════════════
-   FOOTER  (existing tag kept)
+   FOOTER
    ═══════════════════════════════════════════════════════════════ */
 footer {
   text-align: center;
@@ -564,962 +573,19 @@ footer {
   letter-spacing: .5px;
   margin-bottom: 8px;
 }
-footer p {
-  font-size: 13px;
-  opacity: .72;
-}
+footer p { font-size: 13px; opacity: .72; }
 
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
   .hero { height: 260px; }
-  #clientContent { margin-top: 0; }
-  .photos-grid { grid-template-columns: repeat(2, 1fr); }
-  .video-grid  { grid-template-columns: 1fr; }
-  .day-header  { flex-wrap: wrap; gap: 8px; }
+  .photo-upload-grid { grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .slot-icon { font-size: 16px; }
+  .slot-text { font-size: 9px; }
   .form-actions { flex-direction: column; align-items: stretch; }
   .form-actions button { justify-content: center; }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   PHOTO UPLOAD GRID  —  3 individual slots per day
-   ═══════════════════════════════════════════════════════════════ */
-
-.photo-upload-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.photo-upload-slot {
-  position: relative;
-}
-
-.photo-slot-label {
-  display: block;
-  cursor: pointer;
-}
-
-/* Hide the raw file input visually */
-.photo-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.photo-slot-preview {
-  position: relative;
-  aspect-ratio: 4/3;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-
-.photo-slot-label:hover .photo-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-
-.photo-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  pointer-events: none;
-}
-
-.slot-icon {
-  font-size: 22px;
-  line-height: 1;
-}
-
-.slot-text {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.slot-subtext {
-  font-size: 10px;
-  color: #c0b0a0;
-  margin-top: -2px;
-}
-
-.photo-preview-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  z-index: 1;
-}
-
-/* Remove (✕) button */
-.photo-remove-btn,
-.video-remove-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  z-index: 10;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(178,34,34,.88);
-  color: #fff;
-  border: none;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  transition: background .2s, transform .2s;
-  padding: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.photo-remove-btn:hover,
-.video-remove-btn:hover {
-  background: var(--crimson-dk);
-  transform: scale(1.12);
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   VIDEO UPLOAD SLOT  —  single clip per day
-   ═══════════════════════════════════════════════════════════════ */
-
-.video-upload-wrapper {
-  margin-bottom: 16px;
-}
-
-.video-slot-label {
-  display: block;
-  cursor: pointer;
-  position: relative;
-}
-
-.video-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.video-slot-preview {
-  position: relative;
-  aspect-ratio: 16/7;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-
-.video-slot-label:hover .video-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-
-.video-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.video-preview-el {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.video-filename {
-  position: absolute;
-  bottom: 8px;
-  left: 10px;
-  font-size: 11px;
-  color: rgba(255,255,255,.92);
-  font-weight: 500;
-  background: rgba(0,0,0,.48);
-  padding: 2px 9px;
-  border-radius: 6px;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.video-remove-btn {
-  top: 8px;
-  right: 8px;
-  width: 26px;
-  height: 26px;
-  font-size: 12px;
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE ADJUSTMENTS
-   ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 640px) {
-  .photo-upload-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
-  }
-  .slot-icon { font-size: 16px; }
-  .slot-text { font-size: 9px; }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   DATE INPUT  —  inside dayBlock (admin form)
-   ═══════════════════════════════════════════════════════════════ */
-
-.dayBlock input[type="date"].day-date {
-  width: 100%;
-  border: 1.5px solid #e0d0c0;
-  border-radius: var(--radius-sm);
-  font-family: 'Outfit', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--cream);
-  padding: 10px 14px;
-  margin-bottom: 4px;
-  outline: none;
-  transition: border-color .2s, box-shadow .2s;
-  cursor: pointer;
-}
-
-.dayBlock input[type="date"].day-date:focus {
-  border-color: var(--crimson);
-  box-shadow: 0 0 0 3px rgba(178,34,34,.08);
-  background: var(--white);
-}
-
-/* Remove default calendar icon tint on webkit */
-.dayBlock input[type="date"].day-date::-webkit-calendar-picker-indicator {
-  opacity: .5;
-  cursor: pointer;
-  filter: invert(20%) sepia(60%) saturate(600%) hue-rotate(330deg);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   DATE BADGE  —  client page day header
-   ═══════════════════════════════════════════════════════════════ */
-
-.day-date-badge {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .4px;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.3);
-  border-radius: 20px;
-  padding: 4px 14px;
-  white-space: nowrap;
-  color: var(--white);
-  margin-left: auto;
-}
-
-@media (max-width: 640px) {
-  .day-date-badge {
-    margin-left: 0;
-    width: 100%;
-    text-align: center;
-  }
-}
-
-
-
-.photo-upload-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.photo-upload-slot {
-  position: relative;
-}
-
-.photo-slot-label {
-  display: block;
-  cursor: pointer;
-}
-
-/* Hide the raw file input visually */
-.photo-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.photo-slot-preview {
-  position: relative;
-  aspect-ratio: 4/3;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-
-.photo-slot-label:hover .photo-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-
-.photo-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  pointer-events: none;
-}
-
-.slot-icon {
-  font-size: 22px;
-  line-height: 1;
-}
-
-.slot-text {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.slot-subtext {
-  font-size: 10px;
-  color: #c0b0a0;
-  margin-top: -2px;
-}
-
-.photo-preview-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  z-index: 1;
-}
-
-/* Remove (✕) button */
-.photo-remove-btn,
-.video-remove-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  z-index: 10;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(178,34,34,.88);
-  color: #fff;
-  border: none;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  transition: background .2s, transform .2s;
-  padding: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.photo-remove-btn:hover,
-.video-remove-btn:hover {
-  background: var(--crimson-dk);
-  transform: scale(1.12);
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   VIDEO UPLOAD SLOT  —  single clip per day
-   ═══════════════════════════════════════════════════════════════ */
-
-.video-upload-wrapper {
-  margin-bottom: 16px;
-}
-
-.video-slot-label {
-  display: block;
-  cursor: pointer;
-  position: relative;
-}
-
-.video-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.video-slot-preview {
-  position: relative;
-  aspect-ratio: 16/7;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-
-.video-slot-label:hover .video-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-
-.video-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.video-preview-el {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.video-filename {
-  position: absolute;
-  bottom: 8px;
-  left: 10px;
-  font-size: 11px;
-  color: rgba(255,255,255,.92);
-  font-weight: 500;
-  background: rgba(0,0,0,.48);
-  padding: 2px 9px;
-  border-radius: 6px;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.video-remove-btn {
-  top: 8px;
-  right: 8px;
-  width: 26px;
-  height: 26px;
-  font-size: 12px;
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE ADJUSTMENTS
-   ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 640px) {
-  .photo-upload-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
-  }
-  .slot-icon { font-size: 16px; }
-  .slot-text { font-size: 9px; }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   DATE INPUT  —  inside dayBlock (admin form)
-   ═══════════════════════════════════════════════════════════════ */
-
-.dayBlock input[type="date"].day-date {
-  width: 100%;
-  border: 1.5px solid #e0d0c0;
-  border-radius: var(--radius-sm);
-  font-family: 'Outfit', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--cream);
-  padding: 10px 14px;
-  margin-bottom: 4px;
-  outline: none;
-  transition: border-color .2s, box-shadow .2s;
-  cursor: pointer;
-}
-
-.dayBlock input[type="date"].day-date:focus {
-  border-color: var(--crimson);
-  box-shadow: 0 0 0 3px rgba(178,34,34,.08);
-  background: var(--white);
-}
-
-/* Remove default calendar icon tint on webkit */
-.dayBlock input[type="date"].day-date::-webkit-calendar-picker-indicator {
-  opacity: .5;
-  cursor: pointer;
-  filter: invert(20%) sepia(60%) saturate(600%) hue-rotate(330deg);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   DATE BADGE  —  client page day header
-   ═══════════════════════════════════════════════════════════════ */
-
-.day-date-badge {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .4px;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.3);
-  border-radius: 20px;
-  padding: 4px 14px;
-  white-space: nowrap;
-  color: var(--white);
-  margin-left: auto;
-}
-
-@media (max-width: 640px) {
-  .day-date-badge {
-    margin-left: 0;
-    width: 100%;
-    text-align: center;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   GENERATED LINK MODAL
-   ═══════════════════════════════════════════════════════════════ */
-
-#linkModal {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.link-modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(28, 20, 16, 0.72);
-  backdrop-filter: blur(4px);
-}
-
-.link-modal-box {
-  position: relative;
-  z-index: 1;
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: 40px 36px 32px;
-  max-width: 520px;
-  width: 100%;
-  box-shadow: var(--shadow-lg);
-  text-align: center;
-  animation: modalPop .35s cubic-bezier(.34,1.56,.64,1) both;
-}
-
-@keyframes modalPop {
-  from { opacity: 0; transform: scale(.88) translateY(20px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.link-modal-icon {
-  font-size: 48px;
-  line-height: 1;
-  margin-bottom: 14px;
-}
-
-.link-modal-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 8px;
-}
-
-.link-modal-sub {
-  font-size: 14px;
-  color: var(--muted);
-  margin-bottom: 24px;
-  line-height: 1.6;
-}
-
-/* Copy row */
-.link-copy-row {
-  display: flex;
-  gap: 8px;
-  background: var(--cream);
-  border: 1.5px solid #e0d0c0;
-  border-radius: var(--radius-sm);
-  padding: 6px 6px 6px 14px;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.link-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-family: 'Outfit', monospace;
-  font-size: 12.5px;
-  color: var(--ink-soft);
-  outline: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: text;
-}
-
-.copy-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, var(--crimson), var(--crimson-dk));
-  color: var(--white);
-  border: none;
-  padding: 8px 18px;
-  border-radius: 22px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 3px 12px rgba(178,34,34,.28);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.copy-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 5px 18px rgba(178,34,34,.38);
-}
-
-.copy-icon { font-size: 14px; }
-
-.copy-success {
-  font-size: 13px;
-  color: #2e7d32;
-  font-weight: 500;
-  margin-bottom: 10px;
-  animation: fadeIn .3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Action buttons row */
-.link-modal-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.preview-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: var(--cream);
-  color: var(--crimson);
-  border: 1.5px solid var(--crimson);
-  padding: 10px 22px;
-  border-radius: 30px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background .2s, box-shadow .2s;
-}
-.preview-btn:hover {
-  background: #fff0f0;
-  box-shadow: 0 4px 14px rgba(178,34,34,.14);
-}
-
-.close-modal-btn {
-  background: transparent;
-  color: var(--muted);
-  border: 1.5px solid #e0d0c0;
-  padding: 10px 22px;
-  border-radius: 30px;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: none;
-  cursor: pointer;
-  transition: background .2s, color .2s;
-}
-.close-modal-btn:hover {
-  background: var(--cream);
-  color: var(--ink);
-  transform: none;
-  box-shadow: none;
-}
-
-@media (max-width: 520px) {
   .link-modal-box { padding: 30px 20px 24px; }
   .link-modal-actions { flex-direction: column; align-items: stretch; }
   .preview-btn, .close-modal-btn { justify-content: center; text-align: center; }
-}
-
-
-
-.photo-upload-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.photo-upload-slot {
-  position: relative;
-}
-
-.photo-slot-label {
-  display: block;
-  cursor: pointer;
-}
-
-/* Hide the raw file input visually */
-.photo-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.photo-slot-preview {
-  position: relative;
-  aspect-ratio: 4/3;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-
-.photo-slot-label:hover .photo-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-
-.photo-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  pointer-events: none;
-}
-
-.slot-icon {
-  font-size: 22px;
-  line-height: 1;
-}
-
-.slot-text {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.slot-subtext {
-  font-size: 10px;
-  color: #c0b0a0;
-  margin-top: -2px;
-}
-
-.photo-preview-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  z-index: 1;
-}
-
-/* Remove (✕) button */
-.photo-remove-btn,
-.video-remove-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  z-index: 10;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(178,34,34,.88);
-  color: #fff;
-  border: none;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  transition: background .2s, transform .2s;
-  padding: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.photo-remove-btn:hover,
-.video-remove-btn:hover {
-  background: var(--crimson-dk);
-  transform: scale(1.12);
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   VIDEO UPLOAD SLOT  —  single clip per day
-   ═══════════════════════════════════════════════════════════════ */
-
-.video-upload-wrapper {
-  margin-bottom: 16px;
-}
-
-.video-slot-label {
-  display: block;
-  cursor: pointer;
-  position: relative;
-}
-
-.video-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.video-slot-preview {
-  position: relative;
-  aspect-ratio: 16/7;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-
-.video-slot-label:hover .video-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-
-.video-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.video-preview-el {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.video-filename {
-  position: absolute;
-  bottom: 8px;
-  left: 10px;
-  font-size: 11px;
-  color: rgba(255,255,255,.92);
-  font-weight: 500;
-  background: rgba(0,0,0,.48);
-  padding: 2px 9px;
-  border-radius: 6px;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.video-remove-btn {
-  top: 8px;
-  right: 8px;
-  width: 26px;
-  height: 26px;
-  font-size: 12px;
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE ADJUSTMENTS
-   ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 640px) {
-  .photo-upload-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
-  }
-  .slot-icon { font-size: 16px; }
-  .slot-text { font-size: 9px; }
 }

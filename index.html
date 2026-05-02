@@ -14,7 +14,7 @@
     <div class="hero-bg-overlay"></div>
     <div class="overlay">
       <div class="logo-wrap">
-        <img src="/assest/DESTINATION.png" alt="Logo" class="logo">
+        <img src="assest/DESTINATION.png" alt="Logo" class="logo">
       </div>
       <h1>Unicorn Destinations</h1>
       <p>Your Journey, Our Expertise</p>
@@ -22,7 +22,7 @@
     </div>
   </header>
 
-  <!-- FORM INTRO -->
+  <!-- FORM INTRO BANNER -->
   <div class="form-intro">
     <div class="form-intro-inner">
       <span class="form-intro-tag">Admin Panel</span>
@@ -31,14 +31,12 @@
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN FORM -->
   <main>
     <form id="itineraryForm">
-
       <div id="daysContainer">
-        <!-- Day blocks injected here by JS -->
+        <!-- Day blocks injected here by admin.js -->
       </div>
-
       <div class="form-actions">
         <button type="button" id="addDayBtn">
           <span class="btn-icon">+</span>
@@ -49,7 +47,6 @@
           <span>Generate Itinerary</span>
         </button>
       </div>
-
     </form>
   </main>
 
@@ -61,19 +58,6 @@
     </div>
   </footer>
 
-  <script type="module" src="script.js"></script>
-
-  <!-- Enhance dayBlock labels with day numbers when added -->
-  <script>
-    // Patch: update h3 labels to show correct day numbers
-    const observer = new MutationObserver(() => {
-      document.querySelectorAll('.dayBlock').forEach((block, i) => {
-        const h3 = block.querySelector('h3');
-        if (h3) h3.textContent = `Day ${i + 1}`;
-      });
-    });
-    const container = document.getElementById('daysContainer');
-    if (container) observer.observe(container, { childList: true });
-  </script>
+  <script type="module" src="admin.js"></script>
 </body>
 </html>

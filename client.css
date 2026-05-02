@@ -1,243 +1,382 @@
-  :root {
-      --crimson:   #b22222;
-      --crimson-dk:#8b0000;
-      --gold:      #d4a853;
-      --cream:     #fdf8f2;
-      --warm-grey: #f4ede4;
-      --ink:       #1a1a1a;
-      --muted:     #7a6b5e;
-      --white:     #ffffff;
-      --shadow-sm: 0 2px 12px rgba(0,0,0,0.07);
-      --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
-      --radius:    14px;
-    }
+/* ═══════════════════════════════════════════════════════════════
+   UNICORN DESTINATIONS — client.css
+   Client itinerary page styles
+   Fonts: Playfair Display + DM Sans
+   ═══════════════════════════════════════════════════════════════ */
 
-    /* ─── RESET & BASE ────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      min-height: 100vh;
-    }
+/* ─── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --crimson:   #b22222;
+  --crimson-dk:#8b0000;
+  --gold:      #d4a853;
+  --cream:     #fdf8f2;
+  --warm-grey: #f4ede4;
+  --ink:       #1a1a1a;
+  --muted:     #7a6b5e;
+  --white:     #ffffff;
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.07);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+  --radius:    14px;
+}
 
-    /* ─── HERO ────────────────────────────────────────────────── */
-    .hero {
-      position: relative;
-      height: 420px;
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(160deg, rgba(100,10,10,0.72) 0%, rgba(10,10,10,0.78) 100%);
-    }
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      color: var(--white);
-      padding: 0 20px;
-      animation: fadeUp .9s ease both;
-    }
-    .hero-logo {
-      height: 72px;
-      margin-bottom: 18px;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
-    }
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 6vw, 52px);
-      font-weight: 700;
-      letter-spacing: 1px;
-      line-height: 1.15;
-    }
-    .hero-sub {
-      margin-top: 10px;
-      font-size: 15px;
-      font-weight: 300;
-      opacity: 0.82;
-      letter-spacing: 0.5px;
-    }
-    .hero-rule {
-      width: 60px;
-      height: 2px;
-      background: var(--gold);
-      margin: 16px auto 0;
-      border-radius: 2px;
-    }
+/* ─── RESET & BASE ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+}
 
-    /* ─── LAYOUT ──────────────────────────────────────────────── */
-    #clientContent {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 48px 20px 60px;
-    }
+/* ═══════════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 420px;
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(100,10,10,0.72) 0%, rgba(10,10,10,0.78) 100%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--white);
+  padding: 0 20px;
+  animation: fadeUp .9s ease both;
+}
+.hero-logo {
+  height: 72px;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.15;
+}
+.hero-sub {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  opacity: 0.82;
+  letter-spacing: 0.5px;
+}
+.hero-rule {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 16px auto 0;
+  border-radius: 2px;
+}
 
-    /* ─── SECTION LABEL ───────────────────────────────────────── */
-    .section-label {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 32px;
-    }
-    .section-label span {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      color: var(--crimson);
-    }
-    .section-label::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, #d9c5b5, transparent);
-    }
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════════════════════════ */
+#clientContent {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 20px 60px;
+}
 
-    /* ─── DAY CARD ────────────────────────────────────────────── */
-    .itineraryDay {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 28px;
-      overflow: hidden;
-      transition: box-shadow .3s ease, transform .3s ease;
-      animation: fadeUp .6s ease both;
-    }
-    .itineraryDay:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-3px);
-    }
+/* ─── LOADING STATE ───────────────────────────────────────────── */
+.loading-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--muted);
+}
+.loading-spinner {
+  width: 44px; height: 44px;
+  border: 3px solid #f0e8e0;
+  border-top-color: var(--crimson);
+  border-radius: 50%;
+  animation: spin .9s linear infinite;
+  margin: 0 auto 18px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-state p { font-size: 15px; opacity: 0.7; }
 
-    /* Day header strip */
-    .day-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 18px 24px;
-      background: linear-gradient(90deg, var(--crimson) 0%, var(--crimson-dk) 100%);
-      color: var(--white);
-    }
-    .day-badge {
-      font-family: 'Playfair Display', serif;
-      font-size: 13px;
-      font-weight: 700;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 30px;
-      padding: 4px 14px;
-      white-space: nowrap;
-      letter-spacing: 0.5px;
-    }
-    .day-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 700;
-      flex: 1;
-    }
+/* ─── SECTION LABEL ───────────────────────────────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.section-label span {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--crimson);
+  white-space: nowrap;
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #d9c5b5, transparent);
+}
 
-    /* Day body */
-    .day-body {
-      padding: 24px;
-    }
-    .day-body p {
-      font-size: 15px;
-      line-height: 1.75;
-      color: #444;
-      margin-bottom: 18px;
-    }
+/* ═══════════════════════════════════════════════════════════════
+   DAY CARD
+   ═══════════════════════════════════════════════════════════════ */
+.itineraryDay {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 28px;
+  overflow: hidden;
+  transition: box-shadow .3s ease, transform .3s ease;
+  animation: fadeUp .6s ease both;
+}
+.itineraryDay:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.itineraryDay:nth-child(1) { animation-delay: .05s; }
+.itineraryDay:nth-child(2) { animation-delay: .12s; }
+.itineraryDay:nth-child(3) { animation-delay: .19s; }
+.itineraryDay:nth-child(4) { animation-delay: .26s; }
+.itineraryDay:nth-child(5) { animation-delay: .33s; }
 
-    /* Media row */
-    .media-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .itineraryDay img {
-      width: 280px;
-      height: 200px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 3px solid var(--warm-grey);
-      transition: transform .3s ease, border-color .3s ease;
-    }
-    .itineraryDay img:hover {
-      transform: scale(1.03);
-      border-color: var(--gold);
-    }
-    .itineraryDay video {
-      width: 380px;
-      height: 220px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 3px solid var(--warm-grey);
-    }
+/* Day header strip */
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, var(--crimson) 0%, var(--crimson-dk) 100%);
+  color: var(--white);
+  flex-wrap: wrap;
+}
+.day-badge {
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 30px;
+  padding: 4px 14px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.day-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  flex: 1;
+}
+.day-date-badge {
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 4px 14px;
+  white-space: nowrap;
+  color: rgba(255,255,255,0.92);
+  margin-left: auto;
+}
 
-    /* Highlight pills */
-    .highlights {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-    .pill {
-      background: var(--warm-grey);
-      color: var(--crimson);
-      font-size: 12.5px;
-      font-weight: 500;
-      padding: 5px 14px;
-      border-radius: 20px;
-      border: 1px solid #e8d9cc;
-    }
+/* Day body */
+.day-body { padding: 24px; }
+.day-body > p {
+  font-size: 15px;
+  line-height: 1.78;
+  color: #444;
+  margin-bottom: 18px;
+}
+.day-divider {
+  height: 1px;
+  background: #f0e8e0;
+  margin: 16px 0 20px;
+}
+.media-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
 
-    /* ─── FOOTER ──────────────────────────────────────────────── */
-    footer {
-      background: var(--ink);
-      color: rgba(255,255,255,0.85);
-      text-align: center;
-      padding: 28px 20px;
-    }
-    .footer-brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
-    .footer-contact {
-      font-size: 14px;
-      display: flex;
-      justify-content: center;
-      gap: 28px;
-      flex-wrap: wrap;
-      opacity: 0.8;
-    }
-    .footer-contact a {
-      color: inherit;
-      text-decoration: none;
-    }
-    .footer-contact a:hover { color: var(--gold); }
+/* Photos grid — 3 columns */
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.photo-slot {
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: var(--warm-grey);
+  border: 2px solid #f0e8e0;
+  cursor: pointer;
+  transition: border-color .25s;
+}
+.photo-slot:hover { border-color: var(--gold); }
+.photo-slot img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .3s ease;
+}
+.photo-slot:hover img { transform: scale(1.06); }
 
-    /* ─── ANIMATION ───────────────────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .itineraryDay:nth-child(1) { animation-delay: .05s; }
-    .itineraryDay:nth-child(2) { animation-delay: .12s; }
-    .itineraryDay:nth-child(3) { animation-delay: .19s; }
-    .itineraryDay:nth-child(4) { animation-delay: .26s; }
-    .itineraryDay:nth-child(5) { animation-delay: .33s; }
+/* Videos grid — 2 columns */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.video-slot {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #111;
+  border: 2px solid #f0e8e0;
+  position: relative;
+  aspect-ratio: 16/9;
+}
+.video-slot video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.video-slot:hover .play-btn { opacity: .6; }
+.play-icon {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: rgba(178,34,34,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px rgba(0,0,0,.35);
+}
+.play-icon::after {
+  content: "";
+  width: 0; height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 16px solid #fff;
+  margin-left: 3px;
+}
+.video-caption {
+  position: absolute;
+  bottom: 8px; left: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+  background: rgba(0,0,0,0.45);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
 
-    /* ─── RESPONSIVE ──────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .hero { height: 320px; }
-      .itineraryDay img { width: 100%; height: 200px; }
-      .itineraryDay video { width: 100%; height: auto; }
-      .day-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    }
+/* ═══════════════════════════════════════════════════════════════
+   PDF DOWNLOAD BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+.pdf-btn-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 52px;
+}
+.pdf-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dk));
+  border: none;
+  padding: 15px 40px;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 6px 28px rgba(178,34,34,.35);
+  transition: transform .25s, box-shadow .25s;
+  position: relative;
+  overflow: hidden;
+}
+.pdf-download-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.18), transparent);
+  transform: skewX(-20deg);
+  transition: left .6s ease;
+}
+.pdf-download-btn:hover::before { left: 140%; }
+.pdf-download-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 36px rgba(178,34,34,.45);
+}
+.pdf-download-btn:disabled { opacity: .72; cursor: not-allowed; transform: none; }
+.pdf-btn-icon { font-size: 18px; line-height: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+  padding: 28px 20px;
+}
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.footer-contact {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  opacity: 0.8;
+}
+.footer-contact a { color: inherit; text-decoration: none; }
+.footer-contact a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .hero { height: 320px; }
+  .photos-grid { grid-template-columns: repeat(2, 1fr); }
+  .video-grid  { grid-template-columns: 1fr; }
+  .day-header  { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .day-date-badge { margin-left: 0; }
+}
