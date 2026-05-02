@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unicorn Destinations – Create Itinerary</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -14,7 +14,7 @@
     <div class="hero-bg-overlay"></div>
     <div class="overlay">
       <div class="logo-wrap">
-        <img src="assest/DESTINATION.png" alt="Logo" class="logo">
+        <img src="/assest/DESTINATION.png" alt="Logo" class="logo">
       </div>
       <h1>Unicorn Destinations</h1>
       <p>Your Journey, Our Expertise</p>
@@ -22,7 +22,7 @@
     </div>
   </header>
 
-  <!-- FORM INTRO BANNER -->
+  <!-- FORM INTRO -->
   <div class="form-intro">
     <div class="form-intro-inner">
       <span class="form-intro-tag">Admin Panel</span>
@@ -31,12 +31,14 @@
     </div>
   </div>
 
-  <!-- MAIN FORM -->
+  <!-- MAIN CONTENT -->
   <main>
     <form id="itineraryForm">
+
       <div id="daysContainer">
-        <!-- Day blocks injected here by admin.js -->
+        <!-- Day blocks injected here by JS -->
       </div>
+
       <div class="form-actions">
         <button type="button" id="addDayBtn">
           <span class="btn-icon">+</span>
@@ -47,6 +49,7 @@
           <span>Generate Itinerary</span>
         </button>
       </div>
+
     </form>
   </main>
 
@@ -59,5 +62,6 @@
   </footer>
 
   <script type="module" src="admin.js"></script>
+
 </body>
 </html>

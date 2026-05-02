@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   UNICORN DESTINATIONS — style.css
-   Admin / Index page styles
-   Fonts: Cormorant Garamond + Outfit
+   UNICORN DESTINATIONS  —  style.css  (Admin / index.html)
+   Luxury travel aesthetic · Cormorant Garamond + Outfit
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── TOKENS ─────────────────────────────────────────────────── */
@@ -18,18 +17,19 @@
   --muted:      #9a8778;
   --white:      #ffffff;
 
-  --shadow-sm: 0 2px 12px rgba(28,20,16,.07);
-  --shadow-md: 0 8px 32px rgba(28,20,16,.11);
-  --shadow-lg: 0 20px 60px rgba(28,20,16,.14);
+  --shadow-sm:  0 2px 12px rgba(28,20,16,.07);
+  --shadow-md:  0 8px 32px rgba(28,20,16,.11);
+  --shadow-lg:  0 20px 60px rgba(28,20,16,.14);
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
 }
 
 /* ─── RESET ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+
 body {
   font-family: 'Outfit', sans-serif;
   background: var(--cream);
@@ -47,6 +47,7 @@ body {
   position: relative;
   overflow: hidden;
 }
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -60,6 +61,7 @@ body {
   padding: 20px;
   z-index: 2;
 }
+
 .hero-bg-overlay {
   position: absolute;
   inset: 0;
@@ -67,6 +69,7 @@ body {
   pointer-events: none;
   z-index: 1;
 }
+
 .logo-wrap {
   width: 68px; height: 68px;
   background: rgba(255,255,255,.12);
@@ -77,6 +80,7 @@ body {
   backdrop-filter: blur(8px);
 }
 .logo { height: 70px; }
+
 .overlay h1 {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(28px, 5vw, 46px);
@@ -85,6 +89,7 @@ body {
   line-height: 1.1;
   text-shadow: 0 2px 16px rgba(0,0,0,.35);
 }
+
 .overlay p {
   font-size: 14px;
   font-weight: 300;
@@ -92,6 +97,7 @@ body {
   letter-spacing: .8px;
   margin-top: 6px;
 }
+
 .hero-accent-line {
   width: 50px; height: 2px;
   background: linear-gradient(90deg, var(--gold), var(--gold-lt));
@@ -147,7 +153,7 @@ main {
   padding: 36px 20px 60px;
 }
 
-/* ─── DAY BLOCK ─────────────────────────────────────────────── */
+/* ─── DAY BLOCK ──────────────────────────────────────────────── */
 .dayBlock {
   background: var(--white);
   border: 1px solid #ead8c4;
@@ -162,6 +168,7 @@ main {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
 .dayBlock h3 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px;
@@ -172,6 +179,7 @@ main {
   margin: 0;
   letter-spacing: .5px;
 }
+
 .dayBlock label {
   display: block;
   font-size: 12px;
@@ -181,15 +189,9 @@ main {
   color: var(--muted);
   margin-bottom: 6px;
 }
-.dayBlock > *:not(h3) {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.dayBlock > label { padding-top: 16px; }
-.dayBlock > *:last-child { padding-bottom: 20px; }
 
-/* Textarea */
-.dayBlock textarea {
+.dayBlock textarea,
+.dayBlock input[type="file"] {
   width: 100%;
   border: 1.5px solid #e0d0c0;
   border-radius: var(--radius-sm);
@@ -197,21 +199,49 @@ main {
   font-size: 14px;
   color: var(--ink);
   background: var(--cream);
+  transition: border-color .2s, box-shadow .2s;
+  outline: none;
+}
+.dayBlock textarea {
   padding: 12px 14px;
   min-height: 100px;
   resize: vertical;
   line-height: 1.6;
-  outline: none;
-  transition: border-color .2s, box-shadow .2s;
-  margin-bottom: 4px;
 }
 .dayBlock textarea:focus {
   border-color: var(--crimson);
   box-shadow: 0 0 0 3px rgba(178,34,34,.08);
   background: var(--white);
 }
+.dayBlock input[type="file"] {
+  padding: 10px 12px;
+  cursor: pointer;
+}
+.dayBlock input[type="file"]::-webkit-file-upload-button {
+  background: var(--crimson);
+  color: var(--white);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background .2s;
+}
+.dayBlock input[type="file"]::-webkit-file-upload-button:hover {
+  background: var(--crimson-dk);
+}
 
-/* Date input */
+.dayBlock > *:not(h3) { padding-left: 20px; padding-right: 20px; }
+.dayBlock > label { padding-top: 16px; }
+.dayBlock > br { display: none; }
+.dayBlock > textarea { margin-bottom: 4px; }
+.dayBlock > input[type="file"] { margin-bottom: 8px; }
+.dayBlock > *:last-child { padding-bottom: 20px; }
+
+/* ─── DATE INPUT ─────────────────────────────────────────────── */
 .dayBlock input[type="date"].day-date {
   width: 100%;
   border: 1.5px solid #e0d0c0;
@@ -237,150 +267,7 @@ main {
   filter: invert(20%) sepia(60%) saturate(600%) hue-rotate(330deg);
 }
 
-/* ─── PHOTO UPLOAD GRID ─────────────────────────────────────── */
-.photo-upload-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.photo-upload-slot { position: relative; }
-.photo-slot-label { display: block; cursor: pointer; }
-.photo-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%; height: 100%;
-  z-index: 2;
-  padding: 0; border: none; background: none;
-}
-.photo-slot-preview {
-  position: relative;
-  aspect-ratio: 4/3;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-.photo-slot-label:hover .photo-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-.photo-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  pointer-events: none;
-}
-.slot-icon { font-size: 22px; line-height: 1; }
-.slot-text {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .8px;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.photo-preview-img {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  z-index: 1;
-}
-
-/* ─── VIDEO UPLOAD SLOT ─────────────────────────────────────── */
-.video-upload-wrapper { margin-bottom: 16px; }
-.video-slot-label { display: block; cursor: pointer; position: relative; }
-.video-slot-label input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  width: 100%; height: 100%;
-  z-index: 2;
-  padding: 0; border: none; background: none;
-}
-.video-slot-preview {
-  position: relative;
-  aspect-ratio: 16/7;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px dashed #e0d0c0;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color .25s, background .25s;
-}
-.video-slot-label:hover .video-slot-preview {
-  border-color: var(--crimson);
-  background: #fff8f6;
-}
-.video-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-.slot-subtext { font-size: 10px; color: #c0b0a0; }
-.video-preview-el {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-.video-filename {
-  position: absolute;
-  bottom: 8px; left: 10px;
-  font-size: 11px;
-  color: rgba(255,255,255,.92);
-  font-weight: 500;
-  background: rgba(0,0,0,.48);
-  padding: 2px 9px;
-  border-radius: 6px;
-  z-index: 3;
-  pointer-events: none;
-}
-
-/* ─── REMOVE BUTTONS ────────────────────────────────────────── */
-.photo-remove-btn,
-.video-remove-btn {
-  position: absolute;
-  top: 6px; right: 6px;
-  z-index: 10;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: rgba(178,34,34,.88);
-  color: #fff;
-  border: none;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background .2s, transform .2s;
-  padding: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.photo-remove-btn:hover,
-.video-remove-btn:hover {
-  background: var(--crimson-dk);
-  transform: scale(1.12);
-}
-.video-remove-btn { top: 8px; right: 8px; width: 26px; height: 26px; font-size: 12px; }
-
-/* ─── FORM BUTTONS ──────────────────────────────────────────── */
+/* ─── FORM ACTION BUTTONS ────────────────────────────────────── */
 .form-actions {
   display: flex;
   gap: 14px;
@@ -388,6 +275,7 @@ main {
   justify-content: center;
   margin-top: 10px;
 }
+
 button {
   display: inline-flex;
   align-items: center;
@@ -410,6 +298,7 @@ button:hover {
   box-shadow: 0 6px 22px rgba(178,34,34,.38);
   background: linear-gradient(135deg, var(--crimson-lt), var(--crimson));
 }
+
 #addDayBtn {
   background: var(--white);
   color: var(--crimson);
@@ -420,13 +309,202 @@ button:hover {
   background: #fff0f0;
   box-shadow: 0 4px 14px rgba(178,34,34,.14);
 }
+
 .submitBtn {
+  display: inline-flex;
   font-size: 15px;
   padding: 14px 36px;
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dk));
   box-shadow: 0 6px 24px rgba(178,34,34,.32);
   letter-spacing: .6px;
 }
-.btn-icon { font-size: 16px; line-height: 1; }
+
+.btn-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHOTO UPLOAD GRID
+   ═══════════════════════════════════════════════════════════════ */
+.photo-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.photo-upload-slot { position: relative; }
+
+.photo-slot-label {
+  display: block;
+  cursor: pointer;
+}
+
+.photo-slot-label input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.photo-slot-preview {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px dashed #e0d0c0;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .25s, background .25s;
+}
+
+.photo-slot-label:hover .photo-slot-preview {
+  border-color: var(--crimson);
+  background: #fff8f6;
+}
+
+.photo-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.slot-icon { font-size: 22px; line-height: 1; }
+.slot-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.slot-subtext { font-size: 10px; color: #c0b0a0; margin-top: -2px; }
+
+.photo-preview-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+
+/* ─── REMOVE BUTTONS ─────────────────────────────────────────── */
+.photo-remove-btn,
+.video-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 10;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(178,34,34,.88);
+  color: #fff;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background .2s, transform .2s;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.photo-remove-btn:hover,
+.video-remove-btn:hover {
+  background: var(--crimson-dk);
+  transform: scale(1.12);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   VIDEO UPLOAD SLOT
+   ═══════════════════════════════════════════════════════════════ */
+.video-upload-wrapper { margin-bottom: 16px; }
+
+.video-slot-label {
+  display: block;
+  cursor: pointer;
+  position: relative;
+}
+
+.video-slot-label input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.video-slot-preview {
+  position: relative;
+  aspect-ratio: 16/7;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px dashed #e0d0c0;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .25s, background .25s;
+}
+
+.video-slot-label:hover .video-slot-preview {
+  border-color: var(--crimson);
+  background: #fff8f6;
+}
+
+.video-slot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.video-preview-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.video-filename {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,.92);
+  font-weight: 500;
+  background: rgba(0,0,0,.48);
+  padding: 2px 9px;
+  border-radius: 6px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.video-remove-btn { top: 8px; right: 8px; width: 26px; height: 26px; font-size: 12px; }
 
 /* ═══════════════════════════════════════════════════════════════
    GENERATED LINK MODAL
@@ -440,12 +518,14 @@ button:hover {
   justify-content: center;
   padding: 20px;
 }
+
 .link-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(28,20,16,.72);
+  background: rgba(28, 20, 16, 0.72);
   backdrop-filter: blur(4px);
 }
+
 .link-modal-box {
   position: relative;
   z-index: 1;
@@ -458,10 +538,12 @@ button:hover {
   text-align: center;
   animation: modalPop .35s cubic-bezier(.34,1.56,.64,1) both;
 }
+
 @keyframes modalPop {
   from { opacity: 0; transform: scale(.88) translateY(20px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
+
 .link-modal-icon { font-size: 48px; line-height: 1; margin-bottom: 14px; }
 .link-modal-title {
   font-family: 'Cormorant Garamond', serif;
@@ -471,6 +553,7 @@ button:hover {
   margin-bottom: 8px;
 }
 .link-modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+
 .link-copy-row {
   display: flex;
   gap: 8px;
@@ -481,6 +564,7 @@ button:hover {
   align-items: center;
   margin-bottom: 10px;
 }
+
 .link-input {
   flex: 1;
   border: none;
@@ -489,10 +573,12 @@ button:hover {
   font-size: 12.5px;
   color: var(--ink-soft);
   outline: none;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: text;
 }
+
 .copy-btn {
   display: inline-flex;
   align-items: center;
@@ -508,16 +594,25 @@ button:hover {
   cursor: pointer;
   transition: transform .2s, box-shadow .2s;
   box-shadow: 0 3px 12px rgba(178,34,34,.28);
+  white-space: nowrap;
   flex-shrink: 0;
 }
 .copy-btn:hover { transform: scale(1.05); box-shadow: 0 5px 18px rgba(178,34,34,.38); }
 .copy-icon { font-size: 14px; }
+
 .copy-success {
   font-size: 13px;
   color: #2e7d32;
   font-weight: 500;
   margin-bottom: 10px;
+  animation: fadeIn .3s ease;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .link-modal-actions {
   display: flex;
   gap: 10px;
@@ -525,6 +620,7 @@ button:hover {
   margin-top: 20px;
   flex-wrap: wrap;
 }
+
 .preview-btn {
   display: inline-flex;
   align-items: center;
@@ -541,6 +637,7 @@ button:hover {
   transition: background .2s, box-shadow .2s;
 }
 .preview-btn:hover { background: #fff0f0; box-shadow: 0 4px 14px rgba(178,34,34,.14); }
+
 .close-modal-btn {
   background: transparent;
   color: var(--muted);
@@ -580,11 +677,11 @@ footer p { font-size: 13px; opacity: .72; }
    ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
   .hero { height: 260px; }
-  .photo-upload-grid { grid-template-columns: repeat(3, 1fr); gap: 7px; }
-  .slot-icon { font-size: 16px; }
-  .slot-text { font-size: 9px; }
   .form-actions { flex-direction: column; align-items: stretch; }
   .form-actions button { justify-content: center; }
+  .photo-upload-grid { gap: 7px; }
+  .slot-icon { font-size: 16px; }
+  .slot-text { font-size: 9px; }
   .link-modal-box { padding: 30px 20px 24px; }
   .link-modal-actions { flex-direction: column; align-items: stretch; }
   .preview-btn, .close-modal-btn { justify-content: center; text-align: center; }
