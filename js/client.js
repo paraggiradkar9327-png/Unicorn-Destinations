@@ -75,20 +75,21 @@ function renderItinerary(days, container) {
     }
 
     // ── Build videos HTML ──────────────────────────────
+    // Replace videosHTML assignment:
     let videosHTML = "";
     if (day.videos && day.videos.length > 0) {
       const slots = day.videos
         .map((v, i) => `
-          <div class="video-slot">
-            <video src="${v}" controls></video>
-            <div class="play-btn"><div class="play-icon"></div></div>
-            <span class="video-caption">Clip ${i + 1}</span>
-          </div>`)
+      <div class="video-slot">
+        <video src="${v}" controls></video>
+        <div class="play-btn"><div class="play-icon"></div></div>
+        <span class="video-caption">Clip ${i + 1}</span>
+      </div>`)
         .join("");
 
       videosHTML = `
-        <p class="media-label">Videos</p>
-        <div class="video-grid">${slots}</div>`;
+    <p class="media-label">Videos</p>
+    <div class="video-grid" style="justify-items:center;">${slots}</div>`;
     }
 
     const hasmedia = photosHTML || videosHTML;
@@ -96,11 +97,11 @@ function renderItinerary(days, container) {
     const div = document.createElement("div");
     div.className = "itineraryDay";
     div.innerHTML = `
-      <div class="day-header">
-        <span class="day-badge">Day ${day.day}</span>
-        <h2>Day ${day.day}</h2>
-        ${dateHTML}
-      </div>
+<div class="day-header">
+  <span class="day-badge">Day ${day.day}</span>
+  <h2>${day.title}</h2>
+  ${dateHTML}
+</div>
       <div class="day-body">
         <p>${day.desc}</p>
         ${hasmedia ? '<div class="day-divider"></div>' : ""}

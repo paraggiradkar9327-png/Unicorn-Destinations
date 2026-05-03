@@ -249,6 +249,16 @@ document.addEventListener("DOMContentLoaded", () => {
       dateInput.className = "day-date";
       dayBlock.appendChild(dateInput);
 
+      const titleLabel = document.createElement("label");
+      titleLabel.textContent = "Day Title:";
+      dayBlock.appendChild(titleLabel);
+
+      const titleInput = document.createElement("input");
+      titleInput.type = "text";
+      titleInput.className = "day-title";
+      titleInput.placeholder = "e.g. Arrival & City Welcome";
+      dayBlock.appendChild(titleInput);
+
       const descLabel = document.createElement("label");
       descLabel.textContent = "Description:";
       dayBlock.appendChild(descLabel);
@@ -292,8 +302,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const days = [];
 
       for (const [index, block] of [...document.querySelectorAll(".dayBlock")].entries()) {
-        const desc = block.querySelector(".desc").value;
-        const date = block.querySelector(".day-date")?.value || "";
+        // const desc = block.querySelector(".desc").value;
+        // const date = block.querySelector(".day-date")?.value || "";
+        const dateInput = block.querySelector(".day-date");
+        const date = dateInput ? dateInput.value : "";
+        const titleInputEl = block.querySelector(".day-title");
+        const title = titleInputEl ? titleInputEl.value : "";
+        const desc = block.querySelector(".desc")?.value || "";
 
         const photoInputs = block.querySelectorAll(".photo-input");
         const photos = [];
@@ -311,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (url) videos.push(url);
         }
 
-        days.push({ day: index + 1, date, desc, photos, videos });
+        days.push({ day: index + 1, date, title, desc, photos, videos });
       }
 
       const itineraryId = await saveItinerary(days);
@@ -320,8 +335,8 @@ document.addEventListener("DOMContentLoaded", () => {
       submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Generate Itinerary</span>`;
 
       if (itineraryId) {
-        const BASE_URL = "https://69f5a0144130b3bdf1a5b69b--jolly-kataifi-513a74.netlify.app/";
-        showLinkModal(BASE_URL);
+        window.location.href = `client.html?id=${itineraryId}`
+        showLinkModal(window.location.href);
       } else {
         alert("Failed to save itinerary. Please try again.");
       }

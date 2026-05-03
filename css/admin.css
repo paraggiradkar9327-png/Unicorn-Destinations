@@ -267,6 +267,31 @@ main {
   filter: invert(20%) sepia(60%) saturate(600%) hue-rotate(330deg);
 }
 
+/* ─── TITLE INPUT ────────────────────────────────────────────── */
+.dayBlock input[type="text"].day-title {
+  width: 100%;
+  border: 1.5px solid #e0d0c0;
+  border-radius: var(--radius-sm);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--cream);
+  padding: 10px 14px;
+  margin-bottom: 4px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.dayBlock input[type="text"].day-title:focus {
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(178,34,34,.08);
+  background: var(--white);
+}
+.dayBlock input[type="text"].day-title::placeholder {
+  color: var(--muted);
+  opacity: .7;
+  font-style: italic;
+}
+
 /* ─── FORM ACTION BUTTONS ────────────────────────────────────── */
 .form-actions {
   display: flex;
