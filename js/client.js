@@ -15,13 +15,12 @@ async function loadItinerary() {
   const container = document.getElementById("clientContent");
 
   if (!id) {
-    const stored = sessionStorage.getItem("itineraryData");
-    if (!stored) {
+    // const stored = sessionStorage.getItem("itineraryData");
+   
       container.innerHTML = "<p style='text-align:center;padding:40px;color:#999;'>No itinerary found.</p>";
       return;
-    }
-    renderItinerary(JSON.parse(stored), container);
-    return;
+    
+    
   }
 
   const { data, error } = await supabase
@@ -112,6 +111,15 @@ function renderItinerary(days, container) {
 
     container.appendChild(div);
   });
+  const editBtn = document.createElement("div");
+  editBtn.style.cssText = "text-align:center; margin-top: 32px; padding-bottom: 20px;";
+  const itinId = new URLSearchParams(window.location.search).get('id');
+editBtn.innerHTML = `
+  <a href="./admin.html?edit=${itinId}" 
+     class="edit-itinerary-btn">
+    ✏️ Edit Itinerary
+  </a>`;
+  container.appendChild(editBtn);
 }
 
 

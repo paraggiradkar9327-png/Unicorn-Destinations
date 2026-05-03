@@ -43,6 +43,7 @@ async function saveItinerary(days) {
       console.error("Supabase insert error:", error);
       return null;
     }
+    console.log("Returned data:", data); // ADD THIS
     return data[0].id;
   } catch (err) {
     console.error("Unexpected Supabase error:", err);
@@ -226,71 +227,156 @@ function showLinkModal(url) {
 // ==============================
 // ADMIN FORM (index.html)
 // ==============================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const addDayBtn = document.getElementById("addDayBtn");
   const daysContainer = document.getElementById("daysContainer");
   const form = document.getElementById("itineraryForm");
 
+  // ── Check if we're in edit mode ──────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const editId = params.get("edit");
+
+  // ── Helper: create a full day block ─────────────────────────
+  function createDayBlock() {
+    const dayBlock = document.createElement("div");
+    dayBlock.className = "dayBlock";
+
+    const header = document.createElement("h3");
+    header.textContent = "Day";
+    dayBlock.appendChild(header);
+
+    const dateLabel = document.createElement("label");
+    dateLabel.textContent = "Date:";
+    dayBlock.appendChild(dateLabel);
+
+    const dateInput = document.createElement("input");
+    dateInput.type = "date";
+    dateInput.className = "day-date";
+    dayBlock.appendChild(dateInput);
+
+    const titleLabel = document.createElement("label");
+    titleLabel.textContent = "Day Title:";
+    dayBlock.appendChild(titleLabel);
+
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.className = "day-title";
+    titleInput.placeholder = "e.g. Arrival & City Welcome";
+    dayBlock.appendChild(titleInput);
+
+    const descLabel = document.createElement("label");
+    descLabel.textContent = "Description:";
+    dayBlock.appendChild(descLabel);
+
+    const textarea = document.createElement("textarea");
+    textarea.className = "desc";
+    dayBlock.appendChild(textarea);
+
+    const photosLabel = document.createElement("label");
+    photosLabel.textContent = "Photos (up to 3):";
+    dayBlock.appendChild(photosLabel);
+
+    const photosGrid = document.createElement("div");
+    photosGrid.className = "photo-upload-grid";
+    for (let i = 1; i <= 3; i++) {
+      photosGrid.appendChild(createPhotoSlot(i));
+    }
+    dayBlock.appendChild(photosGrid);
+
+    const videoLabel = document.createElement("label");
+    videoLabel.textContent = "Video (1 clip):";
+    dayBlock.appendChild(videoLabel);
+
+    const videoWrapper = document.createElement("div");
+    videoWrapper.className = "video-upload-wrapper";
+    videoWrapper.appendChild(createVideoSlot());
+    dayBlock.appendChild(videoWrapper);
+
+    return dayBlock;
+  }
+
+  // ── Add Day button ───────────────────────────────────────────
   if (addDayBtn) {
     addDayBtn.addEventListener("click", () => {
-      const dayBlock = document.createElement("div");
-      dayBlock.className = "dayBlock";
-
-      const header = document.createElement("h3");
-      header.textContent = "Day";
-      dayBlock.appendChild(header);
-
-      const dateLabel = document.createElement("label");
-      dateLabel.textContent = "Date:";
-      dayBlock.appendChild(dateLabel);
-
-      const dateInput = document.createElement("input");
-      dateInput.type = "date";
-      dateInput.className = "day-date";
-      dayBlock.appendChild(dateInput);
-
-      const titleLabel = document.createElement("label");
-      titleLabel.textContent = "Day Title:";
-      dayBlock.appendChild(titleLabel);
-
-      const titleInput = document.createElement("input");
-      titleInput.type = "text";
-      titleInput.className = "day-title";
-      titleInput.placeholder = "e.g. Arrival & City Welcome";
-      dayBlock.appendChild(titleInput);
-
-      const descLabel = document.createElement("label");
-      descLabel.textContent = "Description:";
-      dayBlock.appendChild(descLabel);
-
-      const textarea = document.createElement("textarea");
-      textarea.className = "desc";
-      dayBlock.appendChild(textarea);
-
-      const photosLabel = document.createElement("label");
-      photosLabel.textContent = "Photos (up to 3):";
-      dayBlock.appendChild(photosLabel);
-
-      const photosGrid = document.createElement("div");
-      photosGrid.className = "photo-upload-grid";
-      for (let i = 1; i <= 3; i++) {
-        photosGrid.appendChild(createPhotoSlot(i));
-      }
-      dayBlock.appendChild(photosGrid);
-
-      const videoLabel = document.createElement("label");
-      videoLabel.textContent = "Video (1 clip):";
-      dayBlock.appendChild(videoLabel);
-
-      const videoWrapper = document.createElement("div");
-      videoWrapper.className = "video-upload-wrapper";
-      videoWrapper.appendChild(createVideoSlot());
-      dayBlock.appendChild(videoWrapper);
-
-      daysContainer.appendChild(dayBlock);
+      daysContainer.appendChild(createDayBlock());
     });
   }
 
+  // ── Pre-fill if editing ──────────────────────────────────────
+  if (editId) {
+    // Change submit button label
+    const submitBtn = form?.querySelector(".submitBtn span:last-child");
+    if (submitBtn) submitBtn.textContent = "Update Itinerary";
+
+    const { data, error } = await supabase
+      .from("itineraries")
+      .select("*")
+      .eq("id", editId)
+      .single();
+
+    if (!error && data?.content) {
+      for (const day of data.content) {
+        const block = createDayBlock();
+        daysContainer.appendChild(block);
+
+        // Date
+        const dateEl = block.querySelector(".day-date");
+        if (dateEl && day.date) dateEl.value = day.date;
+
+        // Title
+        const titleEl = block.querySelector(".day-title");
+        if (titleEl && day.title) titleEl.value = day.title;
+
+        // Description
+        const descEl = block.querySelector(".desc");
+        if (descEl && day.desc) descEl.value = day.desc;
+
+        // Existing photos — show previews with URLs
+        if (day.photos && day.photos.length > 0) {
+          const slots = block.querySelectorAll(".photo-upload-slot");
+          day.photos.forEach((url, i) => {
+            if (!slots[i]) return;
+            const img = slots[i].querySelector(".photo-preview-img");
+            const empty = slots[i].querySelector(".photo-slot-empty");
+            const removeBtn = slots[i].querySelector(".photo-remove-btn");
+            // Store existing URL on the slot for later use
+            slots[i].dataset.existingUrl = url;
+            img.src = url;
+            img.style.display = "block";
+            empty.style.display = "none";
+            removeBtn.style.display = "flex";
+            // Remove clears the existing URL too
+            removeBtn.addEventListener("click", () => {
+              delete slots[i].dataset.existingUrl;
+            });
+          });
+        }
+
+        // Existing video — show preview with URL
+        if (day.videos && day.videos.length > 0) {
+          const videoSlot = block.querySelector(".video-upload-slot");
+          if (videoSlot) {
+            const videoEl = videoSlot.querySelector(".video-preview-el");
+            const empty = videoSlot.querySelector(".video-slot-empty");
+            const removeBtn = videoSlot.querySelector(".video-remove-btn");
+            const filenameEl = videoSlot.querySelector(".video-filename");
+            videoSlot.dataset.existingUrl = day.videos[0];
+            videoEl.src = day.videos[0];
+            videoEl.style.display = "block";
+            empty.style.display = "none";
+            removeBtn.style.display = "flex";
+            filenameEl.textContent = "Existing video";
+            filenameEl.style.display = "block";
+            removeBtn.addEventListener("click", () => {
+              delete videoSlot.dataset.existingUrl;
+            });
+          }
+        }
+      }
+    }
+  }
+
+  // ── Form submit ──────────────────────────────────────────────
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -302,42 +388,73 @@ document.addEventListener("DOMContentLoaded", () => {
       const days = [];
 
       for (const [index, block] of [...document.querySelectorAll(".dayBlock")].entries()) {
-        // const desc = block.querySelector(".desc").value;
-        // const date = block.querySelector(".day-date")?.value || "";
-        const dateInput = block.querySelector(".day-date");
-        const date = dateInput ? dateInput.value : "";
+        const dateEl = block.querySelector(".day-date");
+        const date = dateEl ? dateEl.value : "";
         const titleInputEl = block.querySelector(".day-title");
-        const title = titleInputEl ? titleInputEl.value : "";
+        const title = titleInputEl ? titleInputEl.value.trim() : "";
         const desc = block.querySelector(".desc")?.value || "";
 
-        const photoInputs = block.querySelectorAll(".photo-input");
+        // Photos — use new upload if file selected, else keep existing URL
+        const photoSlots = block.querySelectorAll(".photo-upload-slot");
         const photos = [];
-        for (const input of photoInputs) {
-          if (input.files[0]) {
+        for (const slot of photoSlots) {
+          const input = slot.querySelector(".photo-input");
+          if (input?.files[0]) {
             const url = await uploadFile("Photos", input.files[0]);
             if (url) photos.push(url);
+          } else if (slot.dataset.existingUrl) {
+            photos.push(slot.dataset.existingUrl);
           }
         }
 
-        const videoInput = block.querySelector(".video-input");
+        // Video — use new upload if file selected, else keep existing URL
+        const videoSlot = block.querySelector(".video-upload-slot");
+        const videoInput = videoSlot?.querySelector(".video-input");
         const videos = [];
-        if (videoInput && videoInput.files[0]) {
+        if (videoInput?.files[0]) {
           const url = await uploadFile("Videos", videoInput.files[0]);
           if (url) videos.push(url);
+        } else if (videoSlot?.dataset.existingUrl) {
+          videos.push(videoSlot.dataset.existingUrl);
         }
 
         days.push({ day: index + 1, date, title, desc, photos, videos });
       }
 
-      const itineraryId = await saveItinerary(days);
+      let itineraryId;
+
+      if (editId) {
+  const { data, error } = await supabase
+    .from("itineraries")
+    .update({ content: days })
+    .eq("id", editId)
+    .select(); // ADD .select() to confirm the update
+
+  console.log("Updated data:", data); // ADD THIS
+  console.log("Update error:", error); // ADD THIS
+
+  if (error) {
+    console.error("Update error:", error);
+    alert("Failed to update itinerary.");
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Update Itinerary</span>`;
+    return;
+  }
+  itineraryId = editId;
+} else {
+        // INSERT new record
+        itineraryId = await saveItinerary(days);
+      }
 
       submitBtn.disabled = false;
-      submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Generate Itinerary</span>`;
+      submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>${editId ? 'Update' : 'Generate'} Itinerary</span>`;
 
-      if (itineraryId) {
-        window.location.href = `client.html?id=${itineraryId}`
-        showLinkModal(window.location.href);
-      } else {
+     if (itineraryId) {
+  console.log("itineraryId:", itineraryId); // ADD THIS
+  const clientUrl = `./client.html?id=${itineraryId}`;
+  console.log("clientUrl:", clientUrl); // ADD THIS
+  showLinkModal(clientUrl);
+} else {
         alert("Failed to save itinerary. Please try again.");
       }
     });
