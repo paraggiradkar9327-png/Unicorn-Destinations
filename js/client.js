@@ -88,8 +88,8 @@ function renderItinerary(days, container) {
         .join("");
 
       videosHTML = `
-    <p class="media-label">Videos</p>
-    <div class="video-grid" style="justify-items:center;">${slots}</div>`;
+  <p class="media-label">Videos</p>
+  <div class="video-grid" style="display:flex; justify-content:center;">${slots}</div>`;
     }
 
     const hasmedia = photosHTML || videosHTML;
