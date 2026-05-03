@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 
-// 🔑 Supabase setup
 const SUPABASE_URL = "https://ghjmeiwvcamfnzrlppsf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_cg8XK8wEtaEkvNydO4lQ3w_LUBzLIUI";
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -43,7 +42,6 @@ async function saveItinerary(days) {
       console.error("Supabase insert error:", error);
       return null;
     }
-    console.log("Returned data:", data); // ADD THIS
     return data[0].id;
   } catch (err) {
     console.error("Unexpected Supabase error:", err);
@@ -165,78 +163,17 @@ function createVideoSlot() {
 
 
 // ==============================
-// SHOW GENERATED LINK MODAL
-// ==============================
-function showLinkModal(url) {
-  document.getElementById("linkModal")?.remove();
-
-  const modal = document.createElement("div");
-  modal.id = "linkModal";
-  modal.innerHTML = `
-    <div class="link-modal-backdrop"></div>
-    <div class="link-modal-box">
-      <div class="link-modal-icon">🎉</div>
-      <h2 class="link-modal-title">Itinerary Ready!</h2>
-      <p class="link-modal-sub">Copy the link below and send it to your client.</p>
-
-      <div class="link-copy-row">
-        <input id="linkInput" class="link-input" type="text" value="${url}" readonly>
-        <button type="button" id="copyLinkBtn" class="copy-btn">
-          <span class="copy-icon">📋</span>
-          <span class="copy-label">Copy</span>
-        </button>
-      </div>
-
-      <div id="copySuccess" class="copy-success" style="display:none;">
-        ✅ Link copied to clipboard!
-      </div>
-
-      <div class="link-modal-actions">
-        <a href="${url}" target="_blank" class="preview-btn">
-          <span>👁</span> Preview Client Page
-        </a>
-        <button type="button" class="close-modal-btn" id="closeModalBtn">
-          Close
-        </button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  document.getElementById("copyLinkBtn").addEventListener("click", () => {
-    navigator.clipboard.writeText(url).then(() => {
-      document.getElementById("copySuccess").style.display = "block";
-      document.getElementById("copyLinkBtn").innerHTML = `<span class="copy-icon">✅</span><span class="copy-label">Copied!</span>`;
-      setTimeout(() => {
-        document.getElementById("copySuccess").style.display = "none";
-        document.getElementById("copyLinkBtn").innerHTML = `<span class="copy-icon">📋</span><span class="copy-label">Copy</span>`;
-      }, 3000);
-    });
-  });
-
-  document.getElementById("linkInput").addEventListener("click", function () {
-    this.select();
-  });
-
-  document.getElementById("closeModalBtn").addEventListener("click", () => modal.remove());
-  modal.querySelector(".link-modal-backdrop").addEventListener("click", () => modal.remove());
-}
-
-
-// ==============================
-// ADMIN FORM (index.html)
+// ADMIN FORM
 // ==============================
 document.addEventListener("DOMContentLoaded", async () => {
   const addDayBtn = document.getElementById("addDayBtn");
   const daysContainer = document.getElementById("daysContainer");
   const form = document.getElementById("itineraryForm");
 
-  // ── Check if we're in edit mode ──────────────────────────────
   const params = new URLSearchParams(window.location.search);
   const editId = params.get("edit");
 
-  // ── Helper: create a full day block ─────────────────────────
+  // ── Helper: create full day block ───────────────────────────
   function createDayBlock() {
     const dayBlock = document.createElement("div");
     dayBlock.className = "dayBlock";
@@ -299,12 +236,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (addDayBtn) {
     addDayBtn.addEventListener("click", () => {
       daysContainer.appendChild(createDayBlock());
+      setTimeout(updateClearBtn, 0);
     });
   }
 
   // ── Pre-fill if editing ──────────────────────────────────────
   if (editId) {
-    // Change submit button label
     const submitBtn = form?.querySelector(".submitBtn span:last-child");
     if (submitBtn) submitBtn.textContent = "Update Itinerary";
 
@@ -319,19 +256,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         const block = createDayBlock();
         daysContainer.appendChild(block);
 
-        // Date
         const dateEl = block.querySelector(".day-date");
         if (dateEl && day.date) dateEl.value = day.date;
 
-        // Title
         const titleEl = block.querySelector(".day-title");
         if (titleEl && day.title) titleEl.value = day.title;
 
-        // Description
         const descEl = block.querySelector(".desc");
         if (descEl && day.desc) descEl.value = day.desc;
 
-        // Existing photos — show previews with URLs
         if (day.photos && day.photos.length > 0) {
           const slots = block.querySelectorAll(".photo-upload-slot");
           day.photos.forEach((url, i) => {
@@ -339,20 +272,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             const img = slots[i].querySelector(".photo-preview-img");
             const empty = slots[i].querySelector(".photo-slot-empty");
             const removeBtn = slots[i].querySelector(".photo-remove-btn");
-            // Store existing URL on the slot for later use
             slots[i].dataset.existingUrl = url;
             img.src = url;
             img.style.display = "block";
             empty.style.display = "none";
             removeBtn.style.display = "flex";
-            // Remove clears the existing URL too
-            removeBtn.addEventListener("click", () => {
-              delete slots[i].dataset.existingUrl;
-            });
+            removeBtn.addEventListener("click", () => { delete slots[i].dataset.existingUrl; });
           });
         }
 
-        // Existing video — show preview with URL
         if (day.videos && day.videos.length > 0) {
           const videoSlot = block.querySelector(".video-upload-slot");
           if (videoSlot) {
@@ -367,99 +295,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             removeBtn.style.display = "flex";
             filenameEl.textContent = "Existing video";
             filenameEl.style.display = "block";
-            removeBtn.addEventListener("click", () => {
-              delete videoSlot.dataset.existingUrl;
-            });
+            removeBtn.addEventListener("click", () => { delete videoSlot.dataset.existingUrl; });
           }
         }
       }
+      setTimeout(updateClearBtn, 0);
     }
   }
 
-  // ── Form submit ──────────────────────────────────────────────
-  if (form) {
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const submitBtn = form.querySelector(".submitBtn");
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span class="btn-icon">⏳</span><span>Uploading…</span>`;
-
-      const days = [];
-
-      for (const [index, block] of [...document.querySelectorAll(".dayBlock")].entries()) {
-        const dateEl = block.querySelector(".day-date");
-        const date = dateEl ? dateEl.value : "";
-        const titleInputEl = block.querySelector(".day-title");
-        const title = titleInputEl ? titleInputEl.value.trim() : "";
-        const desc = block.querySelector(".desc")?.value || "";
-
-        // Photos — use new upload if file selected, else keep existing URL
-        const photoSlots = block.querySelectorAll(".photo-upload-slot");
-        const photos = [];
-        for (const slot of photoSlots) {
-          const input = slot.querySelector(".photo-input");
-          if (input?.files[0]) {
-            const url = await uploadFile("Photos", input.files[0]);
-            if (url) photos.push(url);
-          } else if (slot.dataset.existingUrl) {
-            photos.push(slot.dataset.existingUrl);
-          }
-        }
-
-        // Video — use new upload if file selected, else keep existing URL
-        const videoSlot = block.querySelector(".video-upload-slot");
-        const videoInput = videoSlot?.querySelector(".video-input");
-        const videos = [];
-        if (videoInput?.files[0]) {
-          const url = await uploadFile("Videos", videoInput.files[0]);
-          if (url) videos.push(url);
-        } else if (videoSlot?.dataset.existingUrl) {
-          videos.push(videoSlot.dataset.existingUrl);
-        }
-
-        days.push({ day: index + 1, date, title, desc, photos, videos });
-      }
-
-      let itineraryId;
-
-      if (editId) {
-        const { data, error } = await supabase
-          .from("itineraries")
-          .update({ content: days })
-          .eq("id", editId)
-          .select(); // ADD .select() to confirm the update
-
-        console.log("Updated data:", data); // ADD THIS
-        console.log("Update error:", error); // ADD THIS
-
-        if (error) {
-          console.error("Update error:", error);
-          alert("Failed to update itinerary.");
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Update Itinerary</span>`;
-          return;
-        }
-        itineraryId = editId;
-      } else {
-        // INSERT new record
-        itineraryId = await saveItinerary(days);
-      }
-
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>${editId ? 'Update' : 'Generate'} Itinerary</span>`;
-
-      if (itineraryId) {
-        console.log("itineraryId:", itineraryId); // ADD THIS
-        const clientUrl = `./client.html?id=${itineraryId}`;
-        console.log("clientUrl:", clientUrl); // ADD THIS
-        showLinkModal(clientUrl);
-      } else {
-        alert("Failed to save itinerary. Please try again.");
-      }
-    });
-  }
-  // ── Clear All button logic ───────────────────────────────────
+  // ── Clear All button ─────────────────────────────────────────
   const clearBtn = document.getElementById("clearAllBtn");
 
   function checkIfAnyFieldFilled() {
@@ -483,20 +327,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     clearBtn.classList.toggle("clear-btn-active", active);
   }
 
-  // Watch all input/change events on the form
-  document.getElementById("itineraryForm")?.addEventListener("input", updateClearBtn);
-  document.getElementById("itineraryForm")?.addEventListener("change", updateClearBtn);
-
-  // Also re-check when days are added
-  const origAddDay = addDayBtn;
-  if (origAddDay) {
-    origAddDay.addEventListener("click", () => setTimeout(updateClearBtn, 0));
-  }
+  form?.addEventListener("input", updateClearBtn);
+  form?.addEventListener("change", updateClearBtn);
 
   if (clearBtn) {
     clearBtn.addEventListener("click", () => {
       document.querySelectorAll(".dayBlock").forEach(block => {
-        // Clear text fields
         const dateEl = block.querySelector(".day-date");
         const titleEl = block.querySelector(".day-title");
         const descEl = block.querySelector(".desc");
@@ -504,7 +340,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (titleEl) titleEl.value = "";
         if (descEl) descEl.value = "";
 
-        // Clear photos
         block.querySelectorAll(".photo-upload-slot").forEach(slot => {
           const input = slot.querySelector(".photo-input");
           const img = slot.querySelector(".photo-preview-img");
@@ -517,7 +352,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           delete slot.dataset.existingUrl;
         });
 
-        // Clear video
         const videoSlot = block.querySelector(".video-upload-slot");
         if (videoSlot) {
           const input = videoSlot.querySelector(".video-input");
@@ -533,25 +367,97 @@ document.addEventListener("DOMContentLoaded", async () => {
           delete videoSlot.dataset.existingUrl;
         }
       });
-
       updateClearBtn();
     });
   }
 
-  // Initial state — disabled
   updateClearBtn();
+
+  // ── Form submit ──────────────────────────────────────────────
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector(".submitBtn");
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span class="btn-icon">⏳</span><span>Uploading…</span>`;
+
+      const days = [];
+
+      for (const [index, block] of [...document.querySelectorAll(".dayBlock")].entries()) {
+        const dateEl = block.querySelector(".day-date");
+        const date = dateEl ? dateEl.value : "";
+        const titleInputEl = block.querySelector(".day-title");
+        const title = titleInputEl ? titleInputEl.value.trim() : "";
+        const desc = block.querySelector(".desc")?.value || "";
+
+        const photoSlots = block.querySelectorAll(".photo-upload-slot");
+        const photos = [];
+        for (const slot of photoSlots) {
+          const input = slot.querySelector(".photo-input");
+          if (input?.files[0]) {
+            const url = await uploadFile("Photos", input.files[0]);
+            if (url) photos.push(url);
+          } else if (slot.dataset.existingUrl) {
+            photos.push(slot.dataset.existingUrl);
+          }
+        }
+
+        const videoSlot = block.querySelector(".video-upload-slot");
+        const videoInput = videoSlot?.querySelector(".video-input");
+        const videos = [];
+        if (videoInput?.files[0]) {
+          const url = await uploadFile("Videos", videoInput.files[0]);
+          if (url) videos.push(url);
+        } else if (videoSlot?.dataset.existingUrl) {
+          videos.push(videoSlot.dataset.existingUrl);
+        }
+
+        days.push({ day: index + 1, date, title, desc, photos, videos });
+      }
+
+      let itineraryId;
+
+      if (editId) {
+        const { error } = await supabase
+          .from("itineraries")
+          .update({ content: days })
+          .eq("id", editId);
+
+        if (error) {
+          console.error("Update error:", error);
+          alert("Failed to update itinerary.");
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Update Itinerary</span>`;
+          return;
+        }
+        itineraryId = editId;
+      } else {
+        itineraryId = await saveItinerary(days);
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>${editId ? "Update" : "Generate"} Itinerary</span>`;
+
+      if (itineraryId) {
+        // Redirect to client.html (admin view with edit + share buttons)
+        window.location.href = `/client.html?id=${itineraryId}`;
+      } else {
+        alert("Failed to save itinerary. Please try again.");
+      }
+    });
+  }
 });
 
 
 // ==============================
 // DAY NUMBER OBSERVER
 // ==============================
-// Keep h3 labels in sync with actual day order
-const _container = document.getElementById('daysContainer');
+const _container = document.getElementById("daysContainer");
 if (_container) {
   const _observer = new MutationObserver(() => {
-    document.querySelectorAll('.dayBlock').forEach((block, i) => {
-      const h3 = block.querySelector('h3');
+    document.querySelectorAll(".dayBlock").forEach((block, i) => {
+      const h3 = block.querySelector("h3");
       if (h3) h3.textContent = `Day ${i + 1}`;
     });
   });

@@ -384,6 +384,191 @@ footer {
   background: #fff0f0;
   box-shadow: 0 4px 14px rgba(178,34,34,.14);
 }
+/* ─── CLIENT ACTION BUTTONS ──────────────────────────────────── */
+.client-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 32px;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+}
+.edit-itinerary-btn,
+.share-itinerary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .2s, box-shadow .2s, transform .2s;
+  border: 2px solid var(--crimson);
+}
+.edit-itinerary-btn {
+  background: transparent;
+  color: var(--crimson);
+}
+.edit-itinerary-btn:hover {
+  background: #fff0f0;
+  box-shadow: 0 4px 14px rgba(178,34,34,.14);
+}
+.share-itinerary-btn {
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-dk));
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(178,34,34,.28);
+}
+.share-itinerary-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 22px rgba(178,34,34,.38);
+}
+
+/* ─── SHARE MODAL ────────────────────────────────────────────── */
+#shareModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#shareModal .link-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 20, 16, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+#shareModal .link-modal-box {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px 36px 32px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(28,20,16,.14);
+  text-align: center;
+  animation: modalPop .35s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(.88) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#shareModal .link-modal-icon { font-size: 48px; line-height: 1; margin-bottom: 14px; }
+
+#shareModal .link-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1c1410;
+  margin-bottom: 8px;
+}
+
+#shareModal .link-modal-sub {
+  font-size: 14px;
+  color: #9a8778;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+#shareModal .link-copy-row {
+  display: flex;
+  gap: 8px;
+  background: #faf7f2;
+  border: 1.5px solid #e0d0c0;
+  border-radius: 8px;
+  padding: 6px 6px 6px 14px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#shareModal .link-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 12.5px;
+  color: #5a4a3a;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: text;
+}
+
+#shareModal .copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #b22222, #8b0000);
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 22px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 3px 12px rgba(178,34,34,.28);
+  white-space: nowrap;
+}
+
+#shareModal .copy-btn:hover { transform: scale(1.05); }
+
+#shareModal .copy-success {
+  font-size: 13px;
+  color: #2e7d32;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+#shareModal .link-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+#shareModal .preview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #faf7f2;
+  color: #b22222;
+  border: 1.5px solid #b22222;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s;
+}
+#shareModal .preview-btn:hover { background: #fff0f0; }
+
+#shareModal .close-modal-btn {
+  background: transparent;
+  color: #9a8778;
+  border: 1.5px solid #e0d0c0;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .2s;
+  box-shadow: none;
+}
+#shareModal .close-modal-btn:hover {
+  background: #faf7f2;
+  transform: none;
+  box-shadow: none;
+}
 
 /* ═══════════════════════════════════════════════════════════════
    ANIMATIONS
