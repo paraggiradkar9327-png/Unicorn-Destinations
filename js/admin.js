@@ -424,24 +424,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       let itineraryId;
 
       if (editId) {
-  const { data, error } = await supabase
-    .from("itineraries")
-    .update({ content: days })
-    .eq("id", editId)
-    .select(); // ADD .select() to confirm the update
+        const { data, error } = await supabase
+          .from("itineraries")
+          .update({ content: days })
+          .eq("id", editId)
+          .select(); // ADD .select() to confirm the update
 
-  console.log("Updated data:", data); // ADD THIS
-  console.log("Update error:", error); // ADD THIS
+        console.log("Updated data:", data); // ADD THIS
+        console.log("Update error:", error); // ADD THIS
 
-  if (error) {
-    console.error("Update error:", error);
-    alert("Failed to update itinerary.");
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Update Itinerary</span>`;
-    return;
-  }
-  itineraryId = editId;
-} else {
+        if (error) {
+          console.error("Update error:", error);
+          alert("Failed to update itinerary.");
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>Update Itinerary</span>`;
+          return;
+        }
+        itineraryId = editId;
+      } else {
         // INSERT new record
         itineraryId = await saveItinerary(days);
       }
@@ -449,16 +449,97 @@ document.addEventListener("DOMContentLoaded", async () => {
       submitBtn.disabled = false;
       submitBtn.innerHTML = `<span class="btn-icon">✈</span><span>${editId ? 'Update' : 'Generate'} Itinerary</span>`;
 
-     if (itineraryId) {
-  console.log("itineraryId:", itineraryId); // ADD THIS
-  const clientUrl = `./client.html?id=${itineraryId}`;
-  console.log("clientUrl:", clientUrl); // ADD THIS
-  showLinkModal(clientUrl);
-} else {
+      if (itineraryId) {
+        console.log("itineraryId:", itineraryId); // ADD THIS
+        const clientUrl = `./client.html?id=${itineraryId}`;
+        console.log("clientUrl:", clientUrl); // ADD THIS
+        showLinkModal(clientUrl);
+      } else {
         alert("Failed to save itinerary. Please try again.");
       }
     });
   }
+  // ── Clear All button logic ───────────────────────────────────
+  const clearBtn = document.getElementById("clearAllBtn");
+
+  function checkIfAnyFieldFilled() {
+    const blocks = document.querySelectorAll(".dayBlock");
+    for (const block of blocks) {
+      if (block.querySelector(".day-date")?.value) return true;
+      if (block.querySelector(".day-title")?.value.trim()) return true;
+      if (block.querySelector(".desc")?.value.trim()) return true;
+      if ([...block.querySelectorAll(".photo-input")].some(i => i.files[0])) return true;
+      if ([...block.querySelectorAll(".photo-upload-slot")].some(s => s.dataset.existingUrl)) return true;
+      if (block.querySelector(".video-upload-slot")?.dataset.existingUrl) return true;
+      if (block.querySelector(".video-input")?.files[0]) return true;
+    }
+    return false;
+  }
+
+  function updateClearBtn() {
+    if (!clearBtn) return;
+    const active = checkIfAnyFieldFilled();
+    clearBtn.disabled = !active;
+    clearBtn.classList.toggle("clear-btn-active", active);
+  }
+
+  // Watch all input/change events on the form
+  document.getElementById("itineraryForm")?.addEventListener("input", updateClearBtn);
+  document.getElementById("itineraryForm")?.addEventListener("change", updateClearBtn);
+
+  // Also re-check when days are added
+  const origAddDay = addDayBtn;
+  if (origAddDay) {
+    origAddDay.addEventListener("click", () => setTimeout(updateClearBtn, 0));
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      document.querySelectorAll(".dayBlock").forEach(block => {
+        // Clear text fields
+        const dateEl = block.querySelector(".day-date");
+        const titleEl = block.querySelector(".day-title");
+        const descEl = block.querySelector(".desc");
+        if (dateEl) dateEl.value = "";
+        if (titleEl) titleEl.value = "";
+        if (descEl) descEl.value = "";
+
+        // Clear photos
+        block.querySelectorAll(".photo-upload-slot").forEach(slot => {
+          const input = slot.querySelector(".photo-input");
+          const img = slot.querySelector(".photo-preview-img");
+          const empty = slot.querySelector(".photo-slot-empty");
+          const removeBtn = slot.querySelector(".photo-remove-btn");
+          if (input) input.value = "";
+          if (img) { img.src = ""; img.style.display = "none"; }
+          if (empty) empty.style.display = "flex";
+          if (removeBtn) removeBtn.style.display = "none";
+          delete slot.dataset.existingUrl;
+        });
+
+        // Clear video
+        const videoSlot = block.querySelector(".video-upload-slot");
+        if (videoSlot) {
+          const input = videoSlot.querySelector(".video-input");
+          const videoEl = videoSlot.querySelector(".video-preview-el");
+          const empty = videoSlot.querySelector(".video-slot-empty");
+          const removeBtn = videoSlot.querySelector(".video-remove-btn");
+          const filename = videoSlot.querySelector(".video-filename");
+          if (input) input.value = "";
+          if (videoEl) { videoEl.src = ""; videoEl.style.display = "none"; }
+          if (empty) empty.style.display = "flex";
+          if (removeBtn) removeBtn.style.display = "none";
+          if (filename) filename.style.display = "none";
+          delete videoSlot.dataset.existingUrl;
+        }
+      });
+
+      updateClearBtn();
+    });
+  }
+
+  // Initial state — disabled
+  updateClearBtn();
 });
 
 
