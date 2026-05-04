@@ -4,41 +4,258 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unicorn Destinations – Your Itinerary</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/client.css">
-  <link rel="stylesheet" href="/css/preview.css">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/client.css">
+  <link rel="stylesheet" href="css/preview.css">
 </head>
 <body>
 
+  <!-- ── HERO ── -->
   <header class="hero">
-    <div class="hero-inner">
+    <div class="hero-badge">Personalised Itinerary</div>
+
+    <div class="hero-logo-wrap">
       <img src="/assest/DESTINATION.png" alt="Unicorn Destinations Logo" class="hero-logo">
-      <h1 class="hero-title">Unicorn Destinations</h1>
-      <p class="hero-sub">Your Personalised Tour Itinerary</p>
-      <div class="hero-rule"></div>
+    </div>
+
+    <h1 class="hero-title"><em>Unicorn</em> Destinations</h1>
+    <div class="hero-divider"><div class="hero-diamond"></div></div>
+    <p class="hero-sub">Your Personalised Tour Itinerary</p>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll
     </div>
   </header>
 
-  <main id="clientContent">
-    <div class="section-label">
-      <span>Your Journey</span>
+  <!-- ── GOLD RIBBON ── -->
+  <div class="ribbon">✦ &nbsp; Crafted Exclusively For You &nbsp; ✦</div>
+
+  <!-- ── MAIN ── -->
+  <main class="main" id="clientContent">
+
+    <!-- Stats strip -->
+    <div class="highlights fade-up">
+      <p class="highlights-eyebrow">Your Journey at a Glance</p>
+      <h2 class="highlights-title">The Journey Awaits</h2>
+      <p class="highlights-sub">Everything curated for your perfect escape</p>
+      <div class="highlights-grid">
+        <div class="highlight-item">
+          <span class="highlight-icon">🌍</span>
+          <div class="highlight-value">7</div>
+          <div class="highlight-label">Days of Travel</div>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-icon">🏨</span>
+          <div class="highlight-value">4★</div>
+          <div class="highlight-label">Luxury Hotels</div>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-icon">✈️</span>
+          <div class="highlight-value">2</div>
+          <div class="highlight-label">Destinations</div>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-icon">🎯</span>
+          <div class="highlight-value">12+</div>
+          <div class="highlight-label">Experiences</div>
+        </div>
+      </div>
     </div>
+
+    <!-- Day-by-day header -->
+    <div class="section-header fade-up">
+      <p class="section-eyebrow">Day by Day</p>
+      <h2 class="section-title">Your <em>Journey</em></h2>
+      <div class="section-rule"><span></span></div>
+    </div>
+
+    <!-- Day Cards -->
+    <div id="daysList">
+
+      <!-- Day 1 -->
+      <div class="day-card fade-up">
+        <div class="day-number-col">
+          <div class="day-num">
+            <span class="day-num-label">Day</span>
+            <span class="day-num-value">01</span>
+          </div>
+          <div class="day-connector"></div>
+        </div>
+        <div class="day-body">
+          <div class="day-location">
+            <span class="location-dot"></span>
+            <span class="location-name">Arrival • Your Destination</span>
+          </div>
+          <h3 class="day-title">Arrival & Welcome</h3>
+          <p class="day-desc">Touch down and begin your extraordinary journey. Our representative will greet you at the airport and escort you to your handpicked luxury accommodation. The rest of the evening is yours — settle in, unwind, and savour the anticipation of adventures ahead.</p>
+          <div class="day-tags">
+            <span class="tag">Airport Transfer</span>
+            <span class="tag">Hotel Check-in</span>
+            <span class="tag">Welcome Dinner</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="day-card fade-up">
+        <div class="day-number-col">
+          <div class="day-num">
+            <span class="day-num-label">Day</span>
+            <span class="day-num-value">02</span>
+          </div>
+          <div class="day-connector"></div>
+        </div>
+        <div class="day-body">
+          <div class="day-location">
+            <span class="location-dot"></span>
+            <span class="location-name">City Exploration</span>
+          </div>
+          <h3 class="day-title">City Sightseeing & Heritage Walk</h3>
+          <p class="day-desc">Embark on a curated guided tour through the city's most iconic landmarks. Wander through centuries of history, discover hidden gems in ancient quarters, and indulge in a carefully selected local dining experience that captures the true essence of the region.</p>
+          <div class="day-tags">
+            <span class="tag">Guided Tour</span>
+            <span class="tag">Breakfast Included</span>
+            <span class="tag">Local Lunch</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 3 -->
+      <div class="day-card fade-up">
+        <div class="day-number-col">
+          <div class="day-num">
+            <span class="day-num-label">Day</span>
+            <span class="day-num-value">03</span>
+          </div>
+          <div class="day-connector"></div>
+        </div>
+        <div class="day-body">
+          <div class="day-location">
+            <span class="location-dot"></span>
+            <span class="location-name">Day Excursion</span>
+          </div>
+          <h3 class="day-title">Scenic Excursion & Leisure</h3>
+          <p class="day-desc">A full-day excursion to the region's most breathtaking natural landscapes. Capture memories at panoramic viewpoints, explore hidden valleys, and enjoy a gourmet picnic lunch amidst nature. The evening returns you to comfort with free time for personal exploration.</p>
+          <div class="day-tags">
+            <span class="tag">Full Day Excursion</span>
+            <span class="tag">Picnic Lunch</span>
+            <span class="tag">Photography Stops</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#daysList -->
+
+    <p class="continue-note">· · · Your itinerary continues · · ·</p>
+
+    <!-- Inclusions -->
+    <div class="inclusions fade-up">
+      <div class="inc-header">
+        <div class="inc-line"></div>
+        <h2 class="inc-title">What's Included</h2>
+        <div class="inc-line"></div>
+      </div>
+      <div class="inc-grid">
+        <div class="inc-item">
+          <div class="inc-check">
+            <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="inc-text">Return Airfare (Economy Class)</span>
+        </div>
+        <div class="inc-item">
+          <div class="inc-check">
+            <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="inc-text">Accommodation in 4★ Hotels</span>
+        </div>
+        <div class="inc-item">
+          <div class="inc-check">
+            <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="inc-text">Daily Breakfast & Select Meals</span>
+        </div>
+        <div class="inc-item">
+          <div class="inc-check">
+            <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="inc-text">Airport & Inter-city Transfers</span>
+        </div>
+        <div class="inc-item">
+          <div class="inc-check">
+            <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="inc-text">English-Speaking Expert Guide</span>
+        </div>
+        <div class="inc-item">
+          <div class="inc-check">
+            <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="inc-text">All Entrance Fees & Activities</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section-header fade-up" style="padding-top: 0;">
+      <p class="section-eyebrow">Get in Touch</p>
+      <h2 class="section-title">We're Here for <em>You</em></h2>
+      <div class="section-rule"><span></span></div>
+    </div>
+
+    <div class="contact-strip fade-up">
+      <a href="tel:8857955359" class="contact-card">
+        <div class="contact-icon">📞</div>
+        <div>
+          <p class="contact-label">Call Us</p>
+          <p class="contact-value">+91 88579 55359</p>
+        </div>
+      </a>
+      <a href="mailto:unicorndestinations@gmail.com" class="contact-card">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <p class="contact-label">Email Us</p>
+          <p class="contact-value">unicorndestinations@gmail.com</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- PDF CTA -->
+    <div class="cta-wrap fade-up">
+      <button class="pdf-btn" id="downloadPdfBtn">
+        <span class="btn-icon">↓</span>
+        Download Your Itinerary PDF
+      </button>
+    </div>
+
   </main>
 
-  <div class="preview-actions">
-    <button class="pdf-btn" id="downloadPdfBtn">
-      📄 Download PDF
-    </button>
-  </div>
-
+  <!-- ── FOOTER ── -->
   <footer>
+    <div class="footer-logo-wrap">
+      <img src="/assest/DESTINATION.png" alt="Unicorn Destinations" class="footer-logo">
+    </div>
     <p class="footer-brand">Unicorn Destinations</p>
-    <div class="footer-contact">
+    <p class="footer-tagline">Crafting Journeys Worth Remembering</p>
+    <div class="footer-rule"></div>
+    <div class="footer-links">
       <a href="tel:8857955359">📞 8857955359</a>
       <a href="mailto:unicorndestinations@gmail.com">✉️ unicorndestinations@gmail.com</a>
     </div>
   </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = (i * 0.07) + 's';
+      observer.observe(el);
+    });
+  </script>
 
   <script type="module" src="/js/preview.js"></script>
 </body>

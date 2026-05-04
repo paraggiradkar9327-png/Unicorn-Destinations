@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unicorn Destinations – Create Itinerary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/admin.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
 </head>
-
 <body>
 
-  <!-- HERO HEADER -->
+  <!-- ── HERO HEADER (matches preview) ── -->
   <header class="hero">
-    <div class="hero-bg-overlay"></div>
-    <div class="overlay">
-      <div class="logo-wrap">
-        <img src="/assest/DESTINATION.png" alt="Logo" class="logo">
-      </div>
-      <h1>Unicorn Destinations</h1>
-      <p>Your Journey, Our Expertise</p>
-      <div class="hero-accent-line"></div>
+    <div class="hero-badge">Admin Panel</div>
+    <div class="hero-logo-wrap">
+      <img src="/assest/DESTINATION.png" alt="Unicorn Destinations Logo" class="hero-logo">
     </div>
+    <h1 class="hero-title"><em>Unicorn</em> Destinations</h1>
+    <div class="hero-divider"><div class="hero-diamond"></div></div>
+    <p class="hero-sub">Create Client Itinerary</p>
   </header>
 
-  <!-- FORM INTRO -->
+  <!-- ── GOLD RIBBON ── -->
+  <div class="ribbon">✦ &nbsp; Build Your Client's Perfect Journey &nbsp; ✦</div>
+
+  <!-- ── FORM INTRO ── -->
   <div class="form-intro">
     <div class="form-intro-inner">
-      <span class="form-intro-tag">Admin Panel</span>
-      <h2 class="form-intro-heading">Build Your Client's Itinerary</h2>
-      <p class="form-intro-sub">Add each day's description, photos, and videos. When done, submit to generate a
-        shareable link.</p>
+      <p class="section-eyebrow">Itinerary Builder</p>
+      <h2 class="form-intro-heading">Craft the <em>Journey</em></h2>
+      <div class="section-rule"><span></span></div>
+      <p class="form-intro-sub">Add each day's description, photos and videos. When done, submit to generate a shareable client link.</p>
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
+  <!-- ── MAIN ── -->
   <main>
     <form id="itineraryForm">
 
       <div id="daysContainer">
-        <!-- Day blocks injected here by JS -->
+        <!-- Day blocks injected by JS -->
       </div>
 
       <div class="form-actions">
@@ -62,16 +59,41 @@
     </form>
   </main>
 
-  <!-- FOOTER -->
+  <!-- ── FOOTER (matches preview) ── -->
   <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">Unicorn Destinations</div>
-      <p>📞 8857955359 | ✉️ unicorndestinations@gmail.com</p>
+    <div class="footer-logo-wrap">
+      <img src="/assest/DESTINATION.png" alt="Unicorn Destinations" class="footer-logo">
+    </div>
+    <p class="footer-brand">Unicorn Destinations</p>
+    <p class="footer-tagline">Crafting Journeys Worth Remembering</p>
+    <div class="footer-rule"></div>
+    <div class="footer-links">
+      <a href="tel:8857955359">📞 8857955359</a>
+      <a href="mailto:unicorndestinations@gmail.com">✉️ unicorndestinations@gmail.com</a>
     </div>
   </footer>
 
+  <!-- LINK MODAL (kept from original) -->
+  <div id="linkModal" style="display:none;">
+    <div class="link-modal-backdrop"></div>
+    <div class="link-modal-box">
+      <div class="link-modal-icon">✨</div>
+      <h2 class="link-modal-title">Itinerary Ready!</h2>
+      <p class="link-modal-sub">Your client's personalised itinerary has been created. Share the link below.</p>
+      <div class="link-copy-row">
+        <input class="link-input" id="linkInput" type="text" readonly>
+        <button class="copy-btn" id="copyLinkBtn">
+          <span class="copy-icon">⧉</span> Copy
+        </button>
+      </div>
+      <div class="copy-success" id="copySuccess" style="display:none;">✓ Copied to clipboard!</div>
+      <div class="link-modal-actions">
+        <a class="preview-btn" id="previewLink" href="#" target="_blank">👁 Preview</a>
+        <button class="close-modal-btn" id="closeModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/js/admin.js"></script>
-
 </body>
-
 </html>
