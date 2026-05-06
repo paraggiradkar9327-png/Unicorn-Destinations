@@ -4,6 +4,8 @@ const SUPABASE_URL = "https://ghjmeiwvcamfnzrlppsf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_cg8XK8wEtaEkvNydO4lQ3w_LUBzLIUI";
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+
+
 // ==============================
 // LOAD ITINERARY
 // ==============================
@@ -36,11 +38,14 @@ async function loadItinerary() {
 // ==============================
 function renderItinerary(days, container, id) {
   const sectionLabel = container.querySelector(".section-label");
+
   container.innerHTML = "";
   if (sectionLabel) container.appendChild(sectionLabel);
 
   days.forEach(day => {
     let dateHTML = "";
+    const dayNumPadded = String(day.day).padStart(2, "0");
+    const locationLabel = day.location;
     if (day.date) {
       const formatted = new Date(day.date + "T00:00:00").toLocaleDateString("en-GB", {
         day: "numeric", month: "long", year: "numeric"
@@ -75,12 +80,27 @@ function renderItinerary(days, container, id) {
     const div = document.createElement("div");
     div.className = "itineraryDay";
     div.innerHTML = `
+  <div class ="day-number-col"> 
+
+    <div class="day-num">
+          <span class="day-num-label">Day</span>
+          <span class="day-num-value">${dayNumPadded}</span>
+    </div>
+  </div>
+    
       <div class="day-header">
-        <span class="day-badge">Day ${day.day}</span>
-        <h2>${day.title && day.title.trim() !== "" ? day.title : `Day ${day.day}`}</h2>
+         
+        <h2>${day.title}</h2>
       </div>
       <div class="day-body">
-        <p>${day.desc}</p>
+        <div class="day-location">
+          <span class="location-dot"></span>
+          <span class="location-name">${locationLabel}</span>
+        </div>
+        ${dateHTML}
+    
+        <p class="day-desc">${day.desc || ""}</p>
+       
         ${hasMedia ? '<div class="day-divider"></div>' : ""}
         ${photosHTML}
         ${videosHTML}
@@ -88,6 +108,8 @@ function renderItinerary(days, container, id) {
     `;
     container.appendChild(div);
   });
+
+  observeCards();
 
   // ── Admin action buttons ─────────────────────────────────
   const actions = document.createElement("div");
@@ -102,6 +124,25 @@ function renderItinerary(days, container, id) {
   document.getElementById("shareBtn").addEventListener("click", () => {
     const previewUrl = `${window.location.origin}/preview.html?id=${id}`;
     showShareModal(previewUrl);
+  });
+}
+
+// ══════════════════════════════════════════
+// SCROLL REVEAL FOR DAY CARDS
+// ══════════════════════════════════════════
+function observeCards() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll(".day-card").forEach((card, i) => {
+    card.style.transitionDelay = (i * 0.08) + "s";
+    observer.observe(card);
   });
 }
 
